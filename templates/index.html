@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>RAO & PDF Table Extractor</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css"/>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #e3f2fd;
+      padding: 30px;
+    }
+    .container {
+      max-width: 700px;
+      background: white;
+      margin: auto;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.2);
+    }
+    h2 {
+      text-align: center;
+      color: #0d47a1;
+    }
+    input, button {
+      width: 100%;
+      padding: 12px;
+      margin-top: 10px;
+      font-size: 16px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+    button {
+      background: #1976d2;
+      color: white;
+      font-weight: bold;
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #1565c0;
+      transform: scale(1.02);
+    }
+    #progress-bar {
+      width: 0%;
+      height: 20px;
+      background: linear-gradient(to right, #4fc3f7, #0288d1);
+      border-radius: 6px;
+      transition: width 0.5s ease;
+    }
+    #progress-container {
+      background: #bbdefb;
+      border-radius: 6px;
+      margin-top: 10px;
+    }
+    #logs {
+      background: #f9f9f9;
+      padding: 10px;
+      height: 150px;
+      overflow-y: scroll;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      margin-top: 20px;
+      font-size: 14px;
+    }
+    .footer {
+      text-align: right;
+      margin-top: 20px;
+      color: #666;
+      font-size: 12px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h2>📄 RAO & PDF Table Extractor</h2>
+  <form id="extractForm">
+    <input type="file" name="pdf_file" required>
+    <input type="text" name="page_range" placeholder="Enter page range (e.g. 41-76)" required>
+    <input type="text" name="custom_page" placeholder="Optional custom page">
+    <input type="text" name="save_name" placeholder="Enter output filename (e.g. data.xlsx)" required>
+    <button type="submit">🚀 Start Extraction</button>
+  </form>
+
+  <div id="progress-container">
+    <div id="progress-bar"></div>
+  </div>
+
+  <div id="logs"></div>
+  <a id="downloadLink" href="#" style="display:none; font-weight:bold;">📥 Download Output</a>
+
+  <div class="footer">Powered by Roshan</div>
+</div>
+
+<audio id="doneSound" src="{{ url_for('static', filename='complete.mp3') }}"></audio>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const form = document.getElementById('extractForm');
+    const progressBar = document.getElementById('progress-bar');
+    const logsDiv = document.getElementById('logs');
+    const downloadLink = document.getElementById('downloadLink');
+    const doneSound = document.getElementById('doneSound');
+
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+      const formData = new FormData(form);
+      fetch('/', { method: 'POST', body: formData })
+        .then(response => response.json())
+        .then(data => {
+          const interval = setInterval(() => {
+            fetch('/progress')
+              .then(res => res.json())
+              .then(p => {
+                progressBar.style.width = p.progress + '%';
+                logsDiv.innerHTML = p.logs.join('<br>');
+                logsDiv.scrollTop = logsDiv.scrollHeight;
+                if (p.progress >= 100) {
+                  clearInterval(interval);
+                  toastr.success("✅ Extraction Completed");
+                  doneSound.play();
+                  const file = data.filename;
+                  downloadLink.href = '/static/' + file;
+                  downloadLink.style.display = 'block';
+                }
+              });
+          }, 1000);
+        });
+    });
+  });
+</script>
+
+</body>
+</html>
