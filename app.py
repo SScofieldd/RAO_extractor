@@ -4,8 +4,10 @@ import shutil
 from werkzeug.utils import secure_filename
 from threading import Thread
 from rao_extractor import extract_tables_from_pdf, extract_custom_page
+from flask import send_from_directory
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder='static')
+
 app.config['UPLOAD_FOLDER'] = 'uploads'
 app.config['STATIC_FOLDER'] = 'static'
 
@@ -71,7 +73,33 @@ def progress():
 @app.route('/static/<path:filename>')
 def download_file(filename):
     return send_from_directory(app.config['STATIC_FOLDER'], filename)
+from flask import Response
 
+@app.route('/robots.txt')
+def robots_txt():
+    content = """User-agent: *
+Allow: /
+Sitemap: https://rao-extractor-surf-analysis.onrender.com/sitemap.xml
+"""
+    return Response(content, mimetype='text/plain')
+
+
+@app.route('/sitemap.xml')
+def sitemap_xml():
+    content = """<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://rao-extractor-surf-analysis.onrender.com/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+</urlset>
+"""
+    return Response(content, mimetype='application/xml')
+
+@app.route('/google9358c78bdb4eb68e.html')
+def google_verify():
+    return send_from_directory('static', 'google9358c78bdb4eb68e.html')
 
 if __name__ == '__main__':
     app.run(debug=True)
