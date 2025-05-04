@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Roshan Singh | Personal Portfolio</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+</head>
+<body>
+
+  <nav>
+    <h1>Roshan Singh</h1>
+    <div>
+      <a href="#home">Home</a>
+      <a href="#tool">My Tool</a>
+      <a href="#about">About Me</a>
+      <a href="#career">Career</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </nav>
+
+  <section id="home" class="animated">
+    <h2 class="section-title">Welcome 👋</h2>
+    <p>I'm <strong>Roshan Singh</strong>, an Ocean Engineer turned Tech Ninja 🧠. I juggle OrcaFlex, Python, MATLAB, and caffeine ☕. Whether it's RAO extraction or building ML tools to automate your stress (literally), I'm your go-to geek!</p>
+    <img src="{{ url_for('static', filename='rosha_profile.jpg') }}" alt="Roshan Singh" class="profile-img">
+  </section>
+
+  <section id="tool" class="animated">
+    <h2 class="section-title">🛠 My Tool</h2>
+    <p>I build tools that turn tedious engineering tasks into a coffee break. Explore my RAO & PDF Table Extractor tool:</p>
+    <a class="tool-button" href="{{ url_for('rao_tool') }}">🚀 Launch RAO Extractor</a>
+  </section>
+
+  <section id="about" class="animated">
+    <h2 class="section-title">👨‍🎓 About Me</h2>
+    <ul>
+      <li>🌊 Master’s in Ocean Engineering - IIT Madras</li>
+      <li>⚙️ Engineering Analyst @ Oceaneering</li>
+      <li>💻 Passion for automation, ML/AI, and simulation</li>
+      <li>📈 Data-driven and loves meaningful visualizations</li>
+    </ul>
+  </section>
+
+  <section id="career" class="animated">
+    <h2 class="section-title">💼 Career & Projects</h2>
+    <p>I've worked on OrcaFlex & LS-DYNA modeling, RAO simulations, Python GUI tools, and AI integration in engineering apps.</p>
+    <ul>
+      <li>✔ RAO Extractor Tool (PDF table automation)</li>
+      <li>✔ Cable Termination MATLAB App</li>
+      <li>✔ OrcaFlex API batch processor</li>
+      <li>✔ Merging detector for UFlex 2D cross-sections</li>
+    </ul>
+  </section>
+
+  <section id="contact" class="animated">
+    <h2 class="section-title">📬 Contact Me</h2>
+    <div class="social-icons">
+      <a href="https://www.linkedin.com/in/roshan-singh-26a678117/" target="_blank"><i class="fab fa-linkedin"></i></a>
+      <a href="mailto:roshansingh82333@gmail.com"><i class="fas fa-envelope"></i></a>
+      <a href="https://facebook.com" target="_blank"><i class="fab fa-facebook"></i></a>
+      <a href="https://instagram.com" target="_blank"><i class="fab fa-instagram"></i></a>
+    </div>
+  </section>
+
+  <script>
+    const sections = document.querySelectorAll("section");
+    const navLinks = document.querySelectorAll("nav a");
+  
+    // Observer to animate and track active section
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          sections.forEach(sec => sec.classList.remove("active-section"));
+          entry.target.classList.add("active-section");
+          entry.target.classList.add("visible");
+        }
+      });
+    }, { threshold: 0.6 });
+  
+    sections.forEach(section => observer.observe(section));
+  
+    // On nav click — scroll and temporarily highlight section
+    navLinks.forEach(link => {
+      link.addEventListener("click", e => {
+        e.preventDefault();
+        const targetId = link.getAttribute("href").substring(1);
+        const target = document.getElementById(targetId);
+        target.scrollIntoView({ behavior: "smooth" });
+  
+        // Optional force highlight (in case observer delay)
+        sections.forEach(sec => sec.classList.remove("active-section"));
+        target.classList.add("active-section");
+      });
+    });
+  </script>
+  
+  
+
+</body>
+</html>
