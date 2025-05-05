@@ -93,7 +93,7 @@
 
 <div class="container">
   <h2>📄 RAO & PDF Table Extractor</h2>
-  <form id="extractForm">
+  <form id="extractForm" action="/rao-extractor">
     <input type="file" name="pdf_file" required>
     <input type="text" name="page_range" placeholder="Enter page range (e.g. 41-76)" required>
     <input type="text" name="custom_page" placeholder="Optional custom page">
@@ -136,7 +136,7 @@
       progressContainer.style.display = 'block';
       downloadLink.style.display = 'none';
 
-      fetch('/', {
+      fetch('/rao-extractor', {
         method: 'POST',
         body: formData
       })
