@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Orcaflex Toolkit (Web Version)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+  <style>
+    body { font-family: 'Poppins', Arial, sans-serif; background: #eaf3fb; color: #2a3c4c; padding: 24px;}
+    .container { background: #fff; max-width: 620px; margin: 44px auto; padding: 32px 24px 24px 24px; border-radius: 12px; box-shadow: 0 2px 14px #1976d222;}
+    h2 { color: #1976d2; }
+    label { margin-top: 18px; font-weight: 500; display: block;}
+    input, button { width: 100%; margin: 6px 0 14px 0; padding: 10px; font-size: 1em; border-radius: 7px; border: 1px solid #bbc; }
+    button, .copy-btn { background: #1976d2; color: #fff; font-weight: 600; cursor: pointer; border: none; transition: background 0.2s;}
+    button:hover, .copy-btn:hover { background: #125bb3; }
+    .result { background: #f5faff; border-left: 4px solid #1976d2; padding: 12px 18px; border-radius: 8px; font-family: monospace; margin-top: 14px; white-space: pre;}
+    .tab-btn { width:auto; display:inline-block; margin: 0 6px 16px 0; padding: 7px 18px; background: #eee; color: #1976d2; border: none; border-radius: 7px; font-weight: 600; cursor: pointer;}
+    .tab-btn.active { background: #1976d2; color: #fff;}
+    .hidden { display:none; }
+    .copy-btn { width:auto; padding: 6px 14px; margin: 10px 0 0 0; border-radius: 5px; font-size: 0.95em; float: right;}
+    .output-header { font-weight: bold; margin-bottom: 5px; color: #1976d2;}
+    #plotly-cd { margin-top: 18px;}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>⚓ Orcaflex Toolkit (Web)</h2>
+    <div>
+      <button class="tab-btn active" onclick="showTab('corner')">Vessel Corner Generator</button>
+      <button class="tab-btn" onclick="showTab('stiffness')">Stiffness Calculator</button>
+      <button class="tab-btn" onclick="showTab('drag')">Drag Coefficient Calculator</button>
+    </div>
+    <!-- Vessel Corner Generator -->
+    <div id="corner-tab">
+      <form id="corner-form" autocomplete="off">
+        <label>Overall Length (m): <input name="overall_length" type="number" step="0.01" required></label>
+        <label>LBP (m): <input name="lbp" type="number" step="0.01" required></label>
+        <label>Breadth (m): <input name="breadth" type="number" step="0.01" required></label>
+        <label>Depth (m): <input name="depth" type="number" step="0.01" required></label>
+        <button type="submit">Generate Coordinates</button>
+      </form>
+      <div class="output-header" id="corner-header" style="display:none;">Coordinates (X&nbsp;&nbsp;Y&nbsp;&nbsp;Z):</div>
+      <button class="copy-btn" id="corner-copy" style="display:none;" onclick="copyToClipboard('corner-result')">Copy</button>
+      <div id="corner-result" class="result" style="display:none;"></div>
+    </div>
+    <!-- Stiffness Calculator -->
+    <div id="stiffness-tab" class="hidden">
+      <form id="stiffness-form" autocomplete="off">
+        <label>Umbilical OD (D) in m: <input name="d" type="number" step="0.0001" required></label>
+        <label>Undrained Shear Strength (Su₀) in kPa: <input name="su" type="number" step="0.01" required></label>
+        <label><input type="checkbox" id="rho-checkbox"> Consider Shear Gradient (ρ)?</label>
+        <div id="rho-row" style="display:none;">
+          <label>Shear Gradient Value (ρ): <input name="rho" type="number" step="0.01"></label>
+        </div>
+        <button type="submit">Calculate Stiffness</button>
+      </form>
+      <div class="output-header" id="stiffness-header" style="display:none;">Results:</div>
+      <button class="copy-btn" id="stiffness-copy" style="display:none;" onclick="copyToClipboard('stiffness-result')">Copy</button>
+      <div id="stiffness-result" class="result" style="display:none;"></div>
+    </div>
+    <!-- Drag Coefficient Calculator -->
+    <div id="drag-tab" class="hidden">
+      <form id="drag-form" autocomplete="off">
+        <label>Cylinder Diameter (D) in m: <input name="d" type="number" step="0.0001" required></label>
+        <label>Surface Roughness (ε): <input name="epsilon" type="number" step="0.00001" required></label>
+        <button type="submit">Calculate Drag Coefficient Table</button>
+      </form>
+      <div class="output-header" id="drag-header" style="display:none;">Reynolds Number (Re) &nbsp;&nbsp; Drag Coefficient (Cd):</div>
+      <button class="copy-btn" id="drag-copy" style="display:none;" onclick="copyToClipboard('drag-result')">Copy</button>
+      <div id="drag-result" class="result" style="display:none;"></div>
+      <div id="plotly-cd" style="height:340px;width:100%;"></div>
+    </div>
+  </div>
+  <script>
+    // Tabs
+    function showTab(tab) {
+      document.getElementById('corner-tab').classList.toggle('hidden', tab!=='corner');
+      document.getElementById('stiffness-tab').classList.toggle('hidden', tab!=='stiffness');
+      document.getElementById('drag-tab').classList.toggle('hidden', tab!=='drag');
+      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+      document.querySelector('.tab-btn[onclick*="'+tab+'"]').classList.add('active');
+    }
+
+    // Copy to clipboard utility
+    function copyToClipboard(resultId) {
+      let text = document.getElementById(resultId).textContent || document.getElementById(resultId).innerText;
+      navigator.clipboard.writeText(text);
+      alert("Copied to clipboard!");
+    }
+
+    // Vessel Corner Generator (AJAX)
+    document.getElementById('corner-form').onsubmit = async function(e) {
+      e.preventDefault();
+      const fd = new FormData(this);
+      const res = await fetch('/orcaflex-toolkit/corner', {method:'POST',body:fd});
+      const data = await res.json();
+      document.getElementById('corner-header').style.display = 'block';
+      document.getElementById('corner-copy').style.display = 'inline-block';
+      document.getElementById('corner-result').style.display = 'block';
+      document.getElementById('corner-result').textContent = data.result;
+    };
+
+    // Stiffness Calculator logic (AJAX)
+    document.getElementById('rho-checkbox').onchange = function() {
+      document.getElementById('rho-row').style.display = this.checked ? 'block' : 'none';
+    };
+    document.getElementById('stiffness-form').onsubmit = async function(e) {
+      e.preventDefault();
+      const fd = new FormData(this);
+      fd.set('rho', document.getElementById('rho-checkbox').checked ? (fd.get('rho')||'2.0') : '0');
+      const res = await fetch('/orcaflex-toolkit/stiffness', {method:'POST',body:fd});
+      const data = await res.json();
+      document.getElementById('stiffness-header').style.display = 'block';
+      document.getElementById('stiffness-copy').style.display = 'inline-block';
+      document.getElementById('stiffness-result').style.display = 'block';
+      document.getElementById('stiffness-result').innerHTML = data.result;
+    };
+
+    // Drag Coefficient Calculator (AJAX) with robust plot
+    document.getElementById('drag-form').onsubmit = async function(e) {
+      e.preventDefault();
+      const fd = new FormData(this);
+      const res = await fetch('/orcaflex-toolkit/drag', {method:'POST',body:fd});
+      const data = await res.json();
+      document.getElementById('drag-header').style.display = 'block';
+      document.getElementById('drag-copy').style.display = 'inline-block';
+      document.getElementById('drag-result').style.display = 'block';
+      document.getElementById('drag-result').innerHTML = data.result;
+
+      // Robust table parsing
+      let re_vals = [], cd_vals = [];
+      let text = data.result.replace(/<[^>]+>/g, ''); // Remove HTML
+      text = text.replace(/&emsp;/g, ' '); // Replace HTML space entities
+      text = text.replace(/\s{2,}/g, ' '); // Replace multiple spaces with one
+      let lines = text.trim().split('\n');
+      for(let line of lines) {
+        // Skip header lines
+        if (line.toLowerCase().includes('re') && line.toLowerCase().includes('cd')) continue;
+        let parts = line.trim().split(/[\s\t]+/);
+        if(parts.length>=2) {
+          let re = parseFloat(parts[0].replace(/,/g, ''));
+          let cd = parseFloat(parts[1]);
+          if (!isNaN(re) && !isNaN(cd)) {
+            re_vals.push(re);
+            cd_vals.push(cd);
+          }
+        }
+      }
+      // Only plot if we have data
+      if (re_vals.length > 0 && cd_vals.length > 0) {
+        Plotly.newPlot('plotly-cd', [{
+          x: re_vals,
+          y: cd_vals,
+          mode: 'lines+markers',
+          marker: {color: '#1976d2'},
+          line: {width: 3},
+          name: 'Cd vs Re'
+        }], {
+          margin: {l:55,r:20,b:55,t:30},
+          xaxis: {title: 'Reynolds Number (Re)', type: 'log', autorange: true, tickformat: ',.0f'},
+          yaxis: {title: 'Drag Coefficient (Cd)', autorange: true},
+          plot_bgcolor: '#f5faff',
+          paper_bgcolor: '#fff',
+          font: {family:'Poppins, Arial', size:14},
+          title: 'Drag Coefficient vs Reynolds Number'
+        }, {responsive: true});
+      } else {
+        Plotly.newPlot('plotly-cd', [], {
+          margin: {l:55,r:20,b:55,t:30},
+          xaxis: {title: 'Reynolds Number (Re)', type: 'log', autorange: true, tickformat: ',.0f'},
+          yaxis: {title: 'Drag Coefficient (Cd)', autorange: true},
+          plot_bgcolor: '#f5faff',
+          paper_bgcolor: '#fff',
+          font: {family:'Poppins, Arial', size:14},
+          title: 'Drag Coefficient vs Reynolds Number'
+        });
+      }
+    };
+  </script>
+</body>
+</html>
