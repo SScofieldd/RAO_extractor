@@ -3,10 +3,84 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Roshan Singh | Personal Portfolio</title>
+  <title>Roshan Singh | Resume & Portfolio</title>
   <link rel="icon" type="image/png" href="{{ url_for('static', filename='favicon.png') }}">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <style>
+    body {
+      font-family: 'Poppins', 'Segoe UI', Arial, sans-serif;
+      background: #eaf3fb;
+      color: #2a3c4c;
+      font-size: 1.08rem;
+      line-height: 1.7;
+      letter-spacing: 0.01em;
+    }
+    .section-title {
+      color: #1976d2;
+      font-weight: 700;
+      font-size: 1.65rem;
+      letter-spacing: 0.02em;
+      margin-bottom: 0.5em;
+    }
+    .section-subtitle {
+      color: #388e3c;
+      margin-bottom: 6px;
+      margin-top: 16px;
+      font-weight: 600;
+      font-size: 1.15em;
+      letter-spacing: 0.01em;
+    }
+    .resume-list {
+      margin: 0; 
+      padding: 0 0 0 18px;
+      color: #375074;
+      font-size: 1.06em;
+    }
+    p, li {
+      color: #375074;
+      font-size: 1.08em;
+      line-height: 1.7;
+      letter-spacing: 0.02em;
+    }
+    .profile-img {
+      width: 135px; 
+      border-radius: 50%; 
+      margin-top: 12px; 
+      border: 3px solid #1976d2;
+      box-shadow: 0 2px 10px #1976d244;
+    }
+    .download-resume-btn { 
+      display: inline-block; 
+      margin-top: 16px; 
+      background: #1976d2; 
+      color: #fff; 
+      padding: 8px 20px; 
+      border-radius: 22px; 
+      text-decoration: none; 
+      font-weight: 600; 
+      transition: background 0.2s, box-shadow 0.2s; 
+      box-shadow: 0 2px 8px #1976d244;
+    }
+    .download-resume-btn:hover { background: #125bb3; box-shadow: 0 4px 16px #1976d222;}
+    .key { font-weight: bold; color: #1565c0;}
+    .cv-bullets { margin-bottom: 12px; }
+    .contact-grid { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 10px; }
+    .contact-item { display: flex; align-items: center; gap: 8px; color: #1976d2; font-size: 1em; }
+    .awards-list, .hobbies-list { margin: 0; padding: 0 0 0 18px; }
+    .section { margin-bottom: 40px; }
+    .social-icons a { color: #388e3c; font-size: 1.6em; margin-right: 16px; transition: color 0.18s; }
+    .social-icons a:hover { color: #1976d2;}
+    .highlight-summary {
+      background: #f1f8ff;
+      border-left: 4px solid #1976d2;
+      padding: 14px 20px;
+      border-radius: 10px;
+      margin: 18px 0;
+      box-shadow: 0 2px 12px #1976d211;
+    }
+  </style>
 </head>
 <body>
 
@@ -15,55 +89,154 @@
     <div>
       <a href="#home">Home</a>
       <a href="#tool">My Tool</a>
-      <a href="#about">About Me</a>
-      <a href="#career">Career</a>
+      <a href="#about">About</a>
+      <a href="#skills">Skills</a>
+      <a href="#experience">Experience</a>
+      <a href="#education">Education</a>
+      <a href="#projects">Projects</a>
+      <a href="#awards">Awards</a>
+      <a href="#hobbies">Hobbies</a>
       <a href="#contact">Contact</a>
     </div>
   </nav>
 
-  <section id="home" class="animated">
-    <h2 class="section-title">Welcome 👋</h2>
-    <p>I'm <strong>Roshan Singh</strong>, an Ocean Engineer turned Tech Ninja 🧠. I juggle OrcaFlex, Python, MATLAB, and caffeine ☕. Whether it's RAO extraction or building ML tools to automate your stress (literally), I'm your go-to geek!</p>
+  <!-- HERO/Profile Section -->
+  <section id="home" class="animated section">
+    <h2 class="section-title">Roshan Singh</h2>
+    <h3 class="section-subtitle">Sr. Engineering Analyst</h3>
+    <p class="highlight-summary">
+      A results-driven Engineer with 3 years’ experience in renewable and oil & energy sectors, constantly learning and expanding expertise. Specializing in automation and AI-driven solutions, I’ve optimized Orcaflex (Extreme & Fatigue Analysis) and Uflex (Local Analysis), saving one week per project through automation. 
+      <br>
+      Currently working on Orcaflex automation, leveraging Python, MATLAB, and Orcaflex API to streamline complex analyses. My MATLAB-based tools and a widely used app at Oceaneering have enhanced team productivity. Recognized with the Excellence Award, I thrive on innovation, automation, and continuously broadening my mindset.
+    </p>
     <img src="{{ url_for('static', filename='rosha_profile.jpg') }}" alt="Roshan Singh" class="profile-img">
   </section>
 
-  <section id="tool" class="animated">
+  <!-- My Tool -->
+  <section id="tool" class="animated section">
     <h2 class="section-title">🛠 My Tool</h2>
-    <p>I build tools that turn tedious engineering tasks into a coffee break. Explore my RAO & PDF Table Extractor tool:</p>
+    <p>Turn tedious engineering tasks into a coffee break! Try my <strong>RAO & PDF Table Extractor</strong>:</p>
     <a class="tool-button" href="{{ url_for('rao_tool') }}">🚀 Launch RAO Extractor</a>
+    <!-- Add more tools here as you build them -->
   </section>
 
-  <section id="about" class="animated">
-    <h2 class="section-title">👨‍🎓 About Me</h2>
-    <ul>
-      <li>🌊 Master’s in Ocean Engineering - IIT Madras</li>
-      <li>⚙️ Engineering Analyst @ Oceaneering</li>
-      <li>💻 Passion for automation, ML/AI, and simulation</li>
-      <li>📈 Data-driven and loves meaningful visualizations</li>
+  <!-- About (Mini summary) -->
+  <section id="about" class="animated section">
+    <h2 class="section-title">👤 Profile</h2>
+    <p>
+      <strong>Specialties:</strong> Local & Global Analysis with Uflex and Orcaflex, offshore engineering simulations, automation (saving ~2,600 hours and enhancing team efficiency), developing & enhancing MATLAB-based tools, ML-driven crush prediction, and integrating AI & LLMs into engineering workflows.
+    </p>
+    <ul class="resume-list">
+      <li>Proficient in transforming Excel reports into interactive PowerPoint presentations</li>
+      <li>Passionate about AI, ML, optimization, and automation; actively contributing across teams</li>
+      <li>Consistently rated highly by management for three years</li>
+      <li>Visited Scotland, Rosyth, to advance industry knowledge and automation strategies</li>
     </ul>
   </section>
 
-  <section id="career" class="animated">
-    <h2 class="section-title">💼 Career & Projects</h2>
-    <p>I've worked on OrcaFlex & LS-DYNA modeling, RAO simulations, Python GUI tools, and AI integration in engineering apps.</p>
-    <ul>
-      <li>✔ RAO Extractor Tool (PDF table automation)</li>
-      <li>✔ Cable Termination MATLAB App</li>
-      <li>✔ OrcaFlex API batch processor</li>
-      <li>✔ Merging detector for UFlex 2D cross-sections</li>
+  <!-- Skills -->
+  <section id="skills" class="animated section">
+    <h2 class="section-title">🧠 Skills</h2>
+    <ul class="resume-list">
+      <li>OrcaFlex, UFlex (Extreme & Fatigue Analysis, Local Analysis)</li>
+      <li>Python (automation, ML/AI/DL, APIs)</li>
+      <li>MATLAB (GUI tools, automation, analysis)</li>
+      <li>Microsoft Excel (data visualization, reporting)</li>
+      <li>Time Management, Critical Thinking, Effective Communication</li>
+      <li>Data Visualization, AI/ML/DL, Optimization</li>
     </ul>
   </section>
 
-  <section id="contact" class="animated">
+  <!-- Experience -->
+  <section id="experience" class="animated section">
+    <h2 class="section-title">💼 Work Experience</h2>
+    <div class="section-subtitle">Sr. Engineering Analyst, Oceaneering, Chandigarh (2022–Present)</div>
+    <ul class="resume-list">
+      <li>Specialized in Local & Global Analysis using Uflex and Orcaflex, contributing to offshore engineering simulations</li>
+      <li>Automated analyses, saving ~2,600 hours and enhancing team efficiency</li>
+      <li>Developed & enhanced the MATLAB-based OptiMum tool, adopted globally</li>
+      <li>Implemented ML-driven crush prediction, reducing analysis time from two weeks to 20 seconds</li>
+      <li>Received the Excellence Award for automation, innovation, and efficiency</li>
+      <li>Visited Scotland, Rosyth to advance the knowledge of industries, OptiMum tool, and automation strategies</li>
+      <li>Integrating AI & LLMs into engineering workflows for continuous improvement</li>
+      <li>Proficient in transforming Excel reports into interactive PowerPoint presentations</li>
+      <li>Consistently rated highly by management for three years</li>
+      <li>Passionate about AI, ML, optimization, and automation, actively contributing across teams</li>
+    </ul>
+  </section>
+
+  <!-- Education -->
+  <section id="education" class="animated section">
+    <h2 class="section-title">🎓 Education</h2>
+    <div class="section-subtitle">IIT Madras</div>
+    <ul class="resume-list">
+      <li>M.Tech in Ocean Technology <span class="key">(2019–2021)</span></li>
+    </ul>
+    <div class="section-subtitle">KIET Institute of Technology, Ghaziabad</div>
+    <ul class="resume-list">
+      <li>B.Tech in Mechanical Engineering, Graduated with High Honors <span class="key">(2014–2021)</span></li>
+    </ul>
+    <div class="section-subtitle">Kendriya Vidyalaya No.1, Army, Jodhpur</div>
+    <ul class="resume-list">
+      <li>12th, Science <span class="key">(2012–2013)</span></li>
+    </ul>
+  </section>
+
+  <!-- Projects -->
+  <section id="projects" class="animated section">
+    <h2 class="section-title">🚀 Projects & Tools</h2>
+    <ul class="resume-list">
+      <li>RAO & PDF Table Extractor (Python/Flask, deployed on Render)</li>
+      <li>MATLAB-based OptiMum Tool (adopted globally at Oceaneering)</li>
+      <li>ML-driven Crush Prediction for Umbilical Analysis</li>
+      <li>OrcaFlex API Batch Processor</li>
+      <li>Merging Detector for UFlex 2D Cross-Sections</li>
+      <li><strong>LS-DYNA Macro Development</strong> (add details here)</li>
+      <!-- Add more tools as you build them -->
+    </ul>
+  </section>
+
+  <!-- Awards -->
+  <section id="awards" class="animated section">
+    <h2 class="section-title">🏆 Awards & Certifications</h2>
+    <ul class="awards-list">
+      <li>Excellence Award for Automation & Innovation at Oceaneering</li>
+      <li>Prof K A V Pandalai Prize (Silver Medal) for academic performance</li>
+      <li>Certificate of Merit: Top 0.1% in Physics (All India SR. SCH Certification 2013)</li>
+    </ul>
+  </section>
+
+  <!-- Hobbies -->
+  <section id="hobbies" class="animated section">
+    <h2 class="section-title">🎯 Hobbies & Interests</h2>
+    <ul class="hobbies-list">
+      <li>🎨 Painting</li>
+      <li>💪 Fitness Training</li>
+      <li>🎶 Music</li>
+      <li>✈ Traveling</li>
+      <li>🎥 Movies</li>
+      <li>📚 Continuous learning: exploring new skills like cooking, video editing, etc.</li>
+    </ul>
+  </section>
+
+  <!-- Contact & Socials + Download Resume -->
+  <section id="contact" class="animated section">
     <h2 class="section-title">📬 Contact Me</h2>
-    <div class="social-icons">
+    <div class="contact-grid">
+      <span class="contact-item"><i class="fas fa-phone"></i> +91 6395833581</span>
+    </div>
+    <div class="social-icons" style="margin-top:12px;">
       <a href="https://www.linkedin.com/in/roshan-singh-26a678117/" target="_blank"><i class="fab fa-linkedin"></i></a>
       <a href="mailto:roshansingh82333@gmail.com"><i class="fas fa-envelope"></i></a>
       <a href="https://facebook.com" target="_blank"><i class="fab fa-facebook"></i></a>
-      <a href="https://instagram.com" target="_blank"><i class="fab fa-instagram"></i></a>
+      <a href="https://www.instagram.com/roshansingh82333/?next=%2F" target="_blank"><i class="fab fa-instagram"></i></a>
+    </div>
+    <div style="text-align:center; margin-top:30px;">
+      <a class="download-resume-btn" href="{{ url_for('static', filename='ROSHAN CV Resume(1).pdf') }}" target="_blank">⬇️ Download Resume (PDF)</a>
     </div>
   </section>
 
+  <!-- Animated scroll and active section logic -->
   <script>
     const sections = document.querySelectorAll("section");
     const navLinks = document.querySelectorAll("nav a");
@@ -95,8 +268,6 @@
       });
     });
   </script>
-  
-  
 
 </body>
 </html>
