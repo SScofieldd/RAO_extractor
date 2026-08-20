@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <title>Orcaflex Toolkit (Web Version)</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="icon" href="{{ url_for('static', filename='favicon.svg') }}" type="image/svg+xml">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
   <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
   <style>
@@ -21,10 +22,13 @@
     .copy-btn { width:auto; padding: 6px 14px; margin: 10px 0 0 0; border-radius: 5px; font-size: 0.95em; float: right;}
     .output-header { font-weight: bold; margin-bottom: 5px; color: #1976d2;}
     #plotly-cd { margin-top: 18px;}
+    .back-link { display:inline-block; margin-bottom:18px; color:#1976d2; font-weight:600; text-decoration:none; }
+    .back-link:hover { text-decoration:underline; }
   </style>
 </head>
 <body>
   <div class="container">
+    <a class="back-link" href="{{ url_for('homepage') }}">&larr; Back to portfolio</a>
     <h2>⚓ Orcaflex Toolkit (Web)</h2>
     <div>
       <button class="tab-btn active" onclick="showTab('corner')">Vessel Corner Generator</button>

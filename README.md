@@ -1,27 +1,44 @@
-# 🌊 Roshan's Python WebApp
+# Roshan Singh - Ocean Engineering Portfolio & Tools
 
-This is a personal portfolio and engineering tool web application built using **Flask**. It hosts tools like the **RAO & PDF Table Extractor**, with a modern homepage showcasing your background, career, and projects.
+A Flask portfolio for Roshan Singh, Senior Engineering Analyst, with working engineering utilities for RAO/PDF table extraction and OrcaFlex model preparation.
 
----
+## What is included
 
-## 🚀 Features
+- Responsive ocean-engineering portfolio based on Roshan's current resume
+- RAO & PDF Table Extractor with Excel output
+- OrcaFlex Toolkit: vessel corners, stiffness and drag coefficient utilities
+- Downloadable PDF resume
+- Render Blueprint and health check for straightforward deployment
 
-- 🧠 **RAO & PDF Table Extractor** – Upload a PDF, extract tabular data, and download as Excel
-- 👨‍💻 Personal homepage with About Me, Career, and Contact sections
-- 💅 Smooth scroll, animated sections, responsive layout
-- 🌐 SEO-ready (robots.txt, sitemap.xml, Google verification)
+## Run locally
 
----
+```bash
+python -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+flask --app app run --debug
+```
 
-## 🛠️ Tech Stack
+Open `http://127.0.0.1:5000`.
 
-- Python (Flask)
-- HTML5, CSS3 (custom styling)
-- JavaScript (for scroll and active tab)
-- Jinja2 Templates
-- PDFPlumber + Pandas + OpenPyXL
+## Deploy on Render
 
----
+The repository includes `render.yaml`, so it can be deployed as a Blueprint:
 
-## 📂 Folder Structure
+1. Sign in to Render and connect GitHub.
+2. Choose **New > Blueprint**.
+3. Select this repository and approve the detected service.
+4. Deploy. Future commits to the linked branch deploy automatically.
 
+The same settings can be entered manually as a Web Service:
+
+- Build command: `pip install -r requirements.txt`
+- Start command: `gunicorn --bind 0.0.0.0:$PORT --workers 1 --threads 4 --timeout 180 app:app`
+- Health check: `/health`
+
+## Main routes
+
+- `/` - portfolio
+- `/rao-extractor` - RAO/PDF extraction tool
+- `/orcaflex-toolkit` - engineering calculator collection
+- `/health` - deployment health check

@@ -10,7 +10,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <!-- Favicon (optional) -->
-  <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
+  <link rel="icon" href="{{ url_for('static', filename='favicon.svg') }}" type="image/svg+xml">
   
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css"/>
   <style>
@@ -87,11 +87,20 @@
       color: #666;
       font-size: 12px;
     }
+    .back-link {
+      display: inline-block;
+      margin-bottom: 18px;
+      color: #0d47a1;
+      font-weight: 600;
+      text-decoration: none;
+    }
+    .back-link:hover { text-decoration: underline; }
   </style>
 </head>
 <body>
 
 <div class="container">
+  <a class="back-link" href="{{ url_for('homepage') }}">&larr; Back to portfolio</a>
   <h2>📄 RAO & PDF Table Extractor</h2>
   <form id="extractForm" action="/rao-extractor">
     <input type="file" name="pdf_file" required>

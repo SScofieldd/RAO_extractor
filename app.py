@@ -38,6 +38,11 @@ def homepage():
     return render_template('home.html')
 
 
+@app.route('/health')
+def health():
+    return jsonify(status='ok'), 200
+
+
 # ✅ Tool Page
 @app.route('/rao-extractor', methods=['GET', 'POST'])
 def rao_tool():
