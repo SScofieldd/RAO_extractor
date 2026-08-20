@@ -1,275 +1,221 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Roshan Singh | Resume & Portfolio</title>
-  <link rel="icon" type="image/png" href="{{ url_for('static', filename='favicon.png') }}">
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Roshan Singh is a Senior Engineering Analyst specialising in dynamic subsea umbilicals, OrcaFlex, UFlex and engineering automation.">
+  <meta name="author" content="Roshan Singh">
+  <meta name="theme-color" content="#071a2a">
+  <meta property="og:title" content="Roshan Singh | Ocean Engineering & Automation">
+  <meta property="og:description" content="Offshore engineering analysis, dynamic subsea systems and automation tools.">
+  <meta property="og:type" content="website">
+  <title>Roshan Singh | Ocean Engineering & Automation</title>
+  <link rel="icon" href="{{ url_for('static', filename='favicon.svg') }}" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
-  <style>
-    body {
-      font-family: 'Poppins', 'Segoe UI', Arial, sans-serif;
-      background: #eaf3fb;
-      color: #2a3c4c;
-      font-size: 1.08rem;
-      line-height: 1.7;
-      letter-spacing: 0.01em;
-    }
-    .section-title {
-      color: #1976d2;
-      font-weight: 700;
-      font-size: 1.65rem;
-      letter-spacing: 0.02em;
-      margin-bottom: 0.5em;
-    }
-    .section-subtitle {
-      color: #388e3c;
-      margin-bottom: 6px;
-      margin-top: 16px;
-      font-weight: 600;
-      font-size: 1.15em;
-      letter-spacing: 0.01em;
-    }
-    .resume-list {
-      margin: 0; 
-      padding: 0 0 0 18px;
-      color: #375074;
-      font-size: 1.06em;
-    }
-    p, li {
-      color: #375074;
-      font-size: 1.08em;
-      line-height: 1.7;
-      letter-spacing: 0.02em;
-    }
-    .profile-img {
-      width: 135px; 
-      border-radius: 50%; 
-      margin-top: 12px; 
-      border: 3px solid #1976d2;
-      box-shadow: 0 2px 10px #1976d244;
-    }
-    .download-resume-btn { 
-      display: inline-block; 
-      margin-top: 16px; 
-      background: #1976d2; 
-      color: #fff; 
-      padding: 8px 20px; 
-      border-radius: 22px; 
-      text-decoration: none; 
-      font-weight: 600; 
-      transition: background 0.2s, box-shadow 0.2s; 
-      box-shadow: 0 2px 8px #1976d244;
-    }
-    .download-resume-btn:hover { background: #125bb3; box-shadow: 0 4px 16px #1976d222;}
-    .key { font-weight: bold; color: #1565c0;}
-    .cv-bullets { margin-bottom: 12px; }
-    .contact-grid { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 10px; }
-    .contact-item { display: flex; align-items: center; gap: 8px; color: #1976d2; font-size: 1em; }
-    .awards-list, .hobbies-list { margin: 0; padding: 0 0 0 18px; }
-    .section { margin-bottom: 40px; }
-    .social-icons a { color: #388e3c; font-size: 1.6em; margin-right: 16px; transition: color 0.18s; }
-    .social-icons a:hover { color: #1976d2;}
-    .highlight-summary {
-      background: #f1f8ff;
-      border-left: 4px solid #1976d2;
-      padding: 14px 20px;
-      border-radius: 10px;
-      margin: 18px 0;
-      box-shadow: 0 2px 12px #1976d211;
-    }
-  </style>
 </head>
 <body>
+  <a class="skip-link" href="#main-content">Skip to content</a>
 
-  <nav>
-    <h1>Roshan Singh</h1>
-    <div>
-      <a href="#home">Home</a>
-      <a href="#tool">My Tool</a>
-      <a href="#about">About</a>
-      <a href="#skills">Skills</a>
-      <a href="#experience">Experience</a>
-      <a href="#education">Education</a>
-      <a href="#projects">Projects</a>
-      <a href="#awards">Awards</a>
-      <a href="#hobbies">Hobbies</a>
-      <a href="#contact">Contact</a>
+  <header class="site-header" id="top">
+    <div class="nav-shell">
+      <a class="brand" href="#home" aria-label="Roshan Singh, home">
+        <span class="brand-mark" aria-hidden="true">RS</span>
+        <span class="brand-copy">Roshan Singh<small>Ocean engineering</small></span>
+      </a>
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="primary-navigation" aria-label="Open navigation">
+        <span></span><span></span><span></span>
+      </button>
+      <nav class="primary-nav" id="primary-navigation" aria-label="Primary navigation">
+        <a href="#expertise">Expertise</a>
+        <a href="#experience">Experience</a>
+        <a href="#work">Selected work</a>
+        <a href="#credentials">Credentials</a>
+        <a class="nav-cta" href="#contact">Contact</a>
+      </nav>
     </div>
-  </nav>
+  </header>
 
-  <!-- HERO/Profile Section -->
-  <section id="home" class="animated section">
-    <h2 class="section-title">Roshan Singh</h2>
-    <h3 class="section-subtitle">Sr. Engineering Analyst</h3>
-    <p class="highlight-summary">
-      A results-driven Engineer with 3 years’ experience in renewable and oil & energy sectors, constantly learning and expanding expertise. Specializing in automation and AI-driven solutions, I’ve optimized Orcaflex (Extreme & Fatigue Analysis) and Uflex (Local Analysis), saving one week per project through automation. 
-      <br>
-      Currently working on Orcaflex automation, leveraging Python, MATLAB, and Orcaflex API to streamline complex analyses. My MATLAB-based tools and a widely used app at Oceaneering have enhanced team productivity. Recognized with the Excellence Award, I thrive on innovation, automation, and continuously broadening my mindset.
-    </p>
-    <img src="{{ url_for('static', filename='rosha_profile.jpg') }}" alt="Roshan Singh" class="profile-img">
-  </section>
+  <main id="main-content">
+    <section class="hero" id="home">
+      <div class="hero-grid">
+        <div class="hero-copy reveal">
+          <p class="eyebrow"><span></span> Senior Engineering Analyst</p>
+          <h1>Engineering offshore systems. <em>Automating the work behind them.</em></h1>
+          <p class="hero-intro">I am Roshan Singh, an ocean engineer specialising in global and local analysis of dynamic subsea umbilicals, engineering response assessment and automation for offshore projects.</p>
+          <div class="hero-actions">
+            <a class="button button-primary" href="#work">Explore my work <span aria-hidden="true">&rarr;</span></a>
+            <a class="button button-secondary" href="{{ url_for('static', filename='Roshan_Singh_Resume.pdf') }}" target="_blank" rel="noopener">Download resume</a>
+          </div>
+          <div class="hero-meta" aria-label="Profile details">
+            <span>Chandigarh, India</span>
+            <span>Offshore &amp; subsea systems</span>
+            <span>Available for professional connections</span>
+          </div>
+        </div>
 
-  <!-- My Tool -->
-  <section id="tool" class="animated section">
-    <h2 class="section-title">🛠 My Tools</h2>
-    <p>Turn tedious engineering tasks into a coffee break! Try my:</p>
-    <a class="tool-button" href="{{ url_for('rao_tool') }}">🚀 RAO & PDF Table Extractor</a>
-    <a class="tool-button" href="{{ url_for('orcaflex_toolkit') }}" target="_blank">⚓ Orcaflex Toolkit App</a>
-    <!-- Add more tools here as you build them -->
-  </section>
-  
+        <div class="hero-visual reveal">
+          <div class="portrait-frame">
+            <img src="{{ url_for('static', filename='roshan-profile.webp') }}" alt="Roshan Singh at IIT Madras" width="900" height="1125" fetchpriority="high">
+            <div class="portrait-caption">
+              <span class="status-dot" aria-hidden="true"></span>
+              <div><strong>Building practical engineering systems</strong><small>Analysis &middot; automation &middot; delivery</small></div>
+            </div>
+          </div>
+          <div class="orbit-card orbit-card-one" aria-hidden="true"><strong>OrcaFlex</strong><span>Global analysis</span></div>
+          <div class="orbit-card orbit-card-two" aria-hidden="true"><strong>Python</strong><span>Workflow automation</span></div>
+        </div>
+      </div>
 
-  <!-- About (Mini summary) -->
-  <section id="about" class="animated section">
-    <h2 class="section-title">👤 Profile</h2>
-    <p>
-      <strong>Specialties:</strong> Local & Global Analysis with Uflex and Orcaflex, offshore engineering simulations, automation (saving ~2,600 hours and enhancing team efficiency), developing & enhancing MATLAB-based tools, ML-driven crush prediction, and integrating AI & LLMs into engineering workflows.
-    </p>
-    <ul class="resume-list">
-      <li>Proficient in transforming Excel reports into interactive PowerPoint presentations</li>
-      <li>Passionate about AI, ML, optimization, and automation; actively contributing across teams</li>
-      <li>Consistently rated highly by management for three years</li>
-      <li>Visited Scotland, Rosyth, to advance industry knowledge and automation strategies</li>
-    </ul>
-  </section>
+      <div class="impact-strip reveal" aria-label="Career highlights">
+        <div><strong>4.5</strong><span>Years in subsea analysis</span></div>
+        <div><strong>2,600</strong><span>Engineering hours saved</span></div>
+        <div><strong>20 sec</strong><span>ML crush prediction workflow</span></div>
+        <div><strong>Global</strong><span>Engineering collaboration</span></div>
+      </div>
+    </section>
 
-  <!-- Skills -->
-  <section id="skills" class="animated section">
-    <h2 class="section-title">🧠 Skills</h2>
-    <ul class="resume-list">
-      <li>OrcaFlex, UFlex (Extreme & Fatigue Analysis, Local Analysis)</li>
-      <li>Python (automation, ML/AI/DL, APIs)</li>
-      <li>MATLAB (GUI tools, automation, analysis)</li>
-      <li>Microsoft Excel (data visualization, reporting)</li>
-      <li>Time Management, Critical Thinking, Effective Communication</li>
-      <li>Data Visualization, AI/ML/DL, Optimization</li>
-    </ul>
-  </section>
+    <section class="technology-rail" aria-label="Core technologies">
+      <div class="rail-content">
+        <span>Core stack</span>
+        <strong>OrcaFlex</strong><i></i><strong>UFlex</strong><i></i><strong>OrcFxAPI</strong><i></i><strong>Python</strong><i></i><strong>MATLAB</strong>
+      </div>
+    </section>
 
-  <!-- Experience -->
-  <section id="experience" class="animated section">
-    <h2 class="section-title">💼 Work Experience</h2>
-    <div class="section-subtitle">Sr. Engineering Analyst, Oceaneering, Chandigarh (2022–Present)</div>
-    <ul class="resume-list">
-      <li>Specialized in Local & Global Analysis using Uflex and Orcaflex, contributing to offshore engineering simulations</li>
-      <li>Automated analyses, saving ~2,600 hours and enhancing team efficiency</li>
-      <li>Developed & enhanced the MATLAB-based OptiMum tool, adopted globally</li>
-      <li>Implemented ML-driven crush prediction, reducing analysis time from two weeks to 20 seconds</li>
-      <li>Received the Excellence Award for automation, innovation, and efficiency</li>
-      <li>Visited Scotland, Rosyth to advance the knowledge of industries, OptiMum tool, and automation strategies</li>
-      <li>Integrating AI & LLMs into engineering workflows for continuous improvement</li>
-      <li>Proficient in transforming Excel reports into interactive PowerPoint presentations</li>
-      <li>Consistently rated highly by management for three years</li>
-      <li>Passionate about AI, ML, optimization, and automation, actively contributing across teams</li>
-    </ul>
-  </section>
+    <section class="section-shell" id="expertise">
+      <div class="section-heading reveal">
+        <div><p class="kicker">Technical focus</p><h2>From analysis model to issued deliverable.</h2></div>
+        <p>I combine hands-on offshore analysis with automation and delivery coordination, keeping technical quality and practical project outcomes connected.</p>
+      </div>
 
-  <!-- Education -->
-  <section id="education" class="animated section">
-    <h2 class="section-title">🎓 Education</h2>
-    <div class="section-subtitle">IIT Madras</div>
-    <ul class="resume-list">
-      <li>M.Tech in Ocean Technology <span class="key">(2019–2021)</span></li>
-    </ul>
-    <div class="section-subtitle">KIET Institute of Technology, Ghaziabad</div>
-    <ul class="resume-list">
-      <li>B.Tech in Mechanical Engineering, Graduated with High Honors <span class="key">(2014–2021)</span></li>
-    </ul>
-    <div class="section-subtitle">Kendriya Vidyalaya No.1, Army, Jodhpur</div>
-    <ul class="resume-list">
-      <li>12th, Science <span class="key">(2012–2013)</span></li>
-    </ul>
-  </section>
+      <div class="expertise-grid">
+        <article class="expertise-card reveal">
+          <span class="card-index">01</span>
+          <div class="line-icon" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M10 14c12 0 12 12 22 12s10-12 22-12M10 32c12 0 12 12 22 12s10-12 22-12M10 50c12 0 12-12 22-12s10 12 22 12"/></svg></div>
+          <h3>Dynamic subsea systems</h3>
+          <p>Global and local analysis of dynamic umbilicals using OrcaFlex and UFlex, including static and dynamic load cases and engineering response assessment.</p>
+          <ul><li>Model development &amp; review</li><li>Extreme and fatigue analysis</li><li>Response interpretation</li></ul>
+        </article>
 
-  <!-- Projects -->
-  <section id="projects" class="animated section">
-    <h2 class="section-title">🚀 Projects & Tools</h2>
-    <ul class="resume-list">
-      <li>RAO & PDF Table Extractor (Python/Flask, deployed on Render)</li>
-      <li>MATLAB-based OptiMum Tool (adopted globally at Oceaneering)</li>
-      <li>ML-driven Crush Prediction for Umbilical Analysis</li>
-      <li>OrcaFlex API Batch Processor</li>
-      <li>Merging Detector for UFlex 2D Cross-Sections</li>
-      <li><strong>LS-DYNA Macro Development</strong> (add details here)</li>
-      <!-- Add more tools as you build them -->
-    </ul>
-  </section>
+        <article class="expertise-card featured reveal">
+          <span class="card-index">02</span>
+          <div class="line-icon" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M14 45V22l18-10 18 10v23L32 55 14 45Z"/><path d="m22 34 7 7 14-17"/></svg></div>
+          <h3>Engineering automation</h3>
+          <p>Python, MATLAB, OrcFxAPI and Excel workflows that generate models, run simulations, extract results, validate data and accelerate reporting.</p>
+          <ul><li>Batch analysis workflows</li><li>Data extraction &amp; validation</li><li>Tool and GUI development</li></ul>
+        </article>
 
-  <!-- Awards -->
-  <section id="awards" class="animated section">
-    <h2 class="section-title">🏆 Awards & Certifications</h2>
-    <ul class="awards-list">
-      <li>Excellence Award for Automation & Innovation at Oceaneering</li>
-      <li>Prof K A V Pandalai Prize (Silver Medal) for academic performance</li>
-      <li>Certificate of Merit: Top 0.1% in Physics (All India SR. SCH Certification 2013)</li>
-    </ul>
-  </section>
+        <article class="expertise-card reveal">
+          <span class="card-index">03</span>
+          <div class="line-icon" aria-hidden="true"><svg viewBox="0 0 64 64"><circle cx="18" cy="20" r="7"/><circle cx="46" cy="20" r="7"/><circle cx="32" cy="46" r="7"/><path d="m24 24 6 15m10-15-6 15M25 20h14"/></svg></div>
+          <h3>Project delivery</h3>
+          <p>Analysis planning, load-case management, resource coordination, progress tracking, technical issue resolution and clear documentation.</p>
+          <ul><li>Multidisciplinary coordination</li><li>Technical documentation</li><li>Delivery planning &amp; tracking</li></ul>
+        </article>
+      </div>
+    </section>
 
-  <!-- Hobbies -->
-  <section id="hobbies" class="animated section">
-    <h2 class="section-title">🎯 Hobbies & Interests</h2>
-    <ul class="hobbies-list">
-      <li>🎨 Painting</li>
-      <li>💪 Fitness Training</li>
-      <li>🎶 Music</li>
-      <li>✈ Traveling</li>
-      <li>🎥 Movies</li>
-      <li>📚 Continuous learning: exploring new skills like cooking, video editing, etc.</li>
-    </ul>
-  </section>
+    <section class="experience-section" id="experience">
+      <div class="section-shell experience-grid">
+        <div class="experience-intro reveal">
+          <p class="kicker kicker-light">Experience</p>
+          <h2>Technical depth, with ownership of delivery.</h2>
+          <p>My work sits at the intersection of subsea engineering, numerical analysis and practical automation.</p>
+          <a class="text-link light" href="mailto:roshansingh82333@gmail.com">Discuss an engineering opportunity <span aria-hidden="true">&rarr;</span></a>
+        </div>
+        <div class="timeline reveal">
+          <article class="timeline-item">
+            <div class="timeline-marker"></div>
+            <div class="timeline-head"><div><span>2022 - Present</span><h3>Sr. Engineering Analyst</h3></div><strong>Oceaneering</strong></div>
+            <p>Perform global and local analysis of dynamic subsea umbilicals and coordinate analysis delivery for the Bacalhau project with international engineering teams.</p>
+            <div class="tag-list"><span>OrcaFlex</span><span>UFlex</span><span>Dynamic analysis</span><span>Technical delivery</span></div>
+          </article>
+          <article class="timeline-item compact">
+            <div class="timeline-marker"></div>
+            <div class="timeline-head"><div><span>International collaboration</span><h3>Rosyth knowledge transfer</h3></div><strong>Scotland</strong></div>
+            <p>Supported engineering-tool development and alignment of analysis practices with international colleagues at Oceaneering's Rosyth facility.</p>
+          </article>
+        </div>
+      </div>
+    </section>
 
-  <!-- Contact & Socials + Download Resume -->
-  <section id="contact" class="animated section">
-    <h2 class="section-title">📬 Contact Me</h2>
-    <div class="contact-grid">
-      <span class="contact-item"><i class="fas fa-phone"></i> +91 6395833581</span>
-    </div>
-    <div class="social-icons" style="margin-top:12px;">
-      <a href="https://www.linkedin.com/in/roshan-singh-26a678117/" target="_blank"><i class="fab fa-linkedin"></i></a>
-      <a href="mailto:roshansingh82333@gmail.com"><i class="fas fa-envelope"></i></a>
-      <a href="https://facebook.com" target="_blank"><i class="fab fa-facebook"></i></a>
-      <a href="https://www.instagram.com/roshansingh82333/?next=%2F" target="_blank"><i class="fab fa-instagram"></i></a>
-    </div>
-    <div style="text-align:center; margin-top:30px;">
-      <a class="download-resume-btn" href="{{ url_for('static', filename='ROSHAN CV Resume(1).pdf') }}" target="_blank">⬇️ Download Resume (PDF)</a>
-    </div>
-  </section>
+    <section class="section-shell" id="work">
+      <div class="section-heading reveal">
+        <div><p class="kicker">Selected work</p><h2>Useful tools, measurable outcomes.</h2></div>
+        <p>Projects shaped by a simple idea: engineering software should make complex analysis clearer, faster and more repeatable.</p>
+      </div>
+      <div class="work-grid">
+        <article class="project-card project-dark reveal">
+          <div class="project-top"><span>Live web tool</span><span>Python &middot; Flask</span></div>
+          <div class="project-graphic data-graphic" aria-hidden="true"><span></span><span></span><span></span><span></span><i></i></div>
+          <div class="project-copy"><h3>RAO &amp; PDF Table Extractor</h3><p>Converts structured engineering tables from PDF files into organised Excel workbooks, with live extraction progress and downloadable results.</p></div>
+          <a class="project-link" href="{{ url_for('rao_tool') }}">Open extractor <span aria-hidden="true">&nearr;</span></a>
+        </article>
 
-  <!-- Animated scroll and active section logic -->
-  <script>
-    const sections = document.querySelectorAll("section");
-    const navLinks = document.querySelectorAll("nav a");
-  
-    // Observer to animate and track active section
-    const observer = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          sections.forEach(sec => sec.classList.remove("active-section"));
-          entry.target.classList.add("active-section");
-          entry.target.classList.add("visible");
-        }
-      });
-    }, { threshold: 0.6 });
-  
-    sections.forEach(section => observer.observe(section));
-  
-    // On nav click — scroll and temporarily highlight section
-    navLinks.forEach(link => {
-      link.addEventListener("click", e => {
-        e.preventDefault();
-        const targetId = link.getAttribute("href").substring(1);
-        const target = document.getElementById(targetId);
-        target.scrollIntoView({ behavior: "smooth" });
-  
-        // Optional force highlight (in case observer delay)
-        sections.forEach(sec => sec.classList.remove("active-section"));
-        target.classList.add("active-section");
-      });
-    });
-  </script>
+        <article class="project-card project-teal reveal">
+          <div class="project-top"><span>Engineering toolkit</span><span>OrcaFlex support</span></div>
+          <div class="project-graphic vessel-graphic" aria-hidden="true"><div class="waterline"></div><div class="vessel"></div><span></span><span></span><span></span></div>
+          <div class="project-copy"><h3>OrcaFlex Toolkit</h3><p>A browser-based collection of vessel corner, seabed stiffness and drag coefficient utilities for faster model preparation and design checks.</p></div>
+          <a class="project-link" href="{{ url_for('orcaflex_toolkit') }}">Open toolkit <span aria-hidden="true">&nearr;</span></a>
+        </article>
 
+        <article class="project-card project-light reveal">
+          <div class="project-top"><span>Automation impact</span><span>MATLAB &middot; ML</span></div>
+          <div class="outcome-stack">
+            <div><strong>~2,600</strong><span>hours saved through UFlex automation</span></div>
+            <div><strong>2 weeks &rarr; 20 seconds</strong><span>ML-driven crush prediction</span></div>
+            <div><strong>Global adoption</strong><span>OptiMum MATLAB tool</span></div>
+          </div>
+          <div class="project-copy"><h3>Analysis automation programme</h3><p>Automated workflows spanning simulation execution, result extraction, design calculations, validation and reporting.</p></div>
+        </article>
+      </div>
+    </section>
+
+    <section class="credentials-section" id="credentials">
+      <div class="section-shell credentials-grid">
+        <div class="education-panel reveal">
+          <p class="kicker">Education</p>
+          <h2>Ocean engineering foundations.</h2>
+          <div class="credential-item"><span>2021</span><div><h3>M.Tech, Ocean Technology</h3><p>IIT Madras &middot; 8.96 CGPA</p><small>Prof. K. A. V. Pandalai Prize (Silver Medal)</small></div></div>
+          <div class="credential-item"><span>2018</span><div><h3>B.Tech, Mechanical Engineering</h3><p>KIET Institute of Technology &middot; 75.32%</p><small>Graduated with Honors</small></div></div>
+        </div>
+        <div class="awards-panel reveal">
+          <p class="kicker">Recognition</p>
+          <h2>Outcomes recognised.</h2>
+          <ul class="award-list">
+            <li><span>01</span><div><strong>Productivity Excellence Award</strong><p>Engineering automation delivering approximately 2,600 hours of estimated savings.</p></div></li>
+            <li><span>02</span><div><strong>Certificate of Excellence</strong><p>Technical contribution and delivery on the Trident Energy Okume - Ceiba Subsea Tie-Back Project.</p></div></li>
+            <li><span>03</span><div><strong>Team Excellence Award</strong><p>Recognition for collaborative engineering delivery.</p></div></li>
+            <li><span>04</span><div><strong>Certificate of Merit</strong><p>Top 0.1% in Physics in the All India Senior School Certificate examination.</p></div></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="contact-section" id="contact">
+      <div class="contact-shell reveal">
+        <div>
+          <p class="kicker kicker-light">Connect</p>
+          <h2>Interested in offshore engineering, automation or technical collaboration?</h2>
+        </div>
+        <div class="contact-actions">
+          <a class="button button-light" href="mailto:roshansingh82333@gmail.com">Email Roshan <span aria-hidden="true">&rarr;</span></a>
+          <div class="social-links">
+            <a href="https://www.linkedin.com/in/rosh-an-singh-26a678117/" target="_blank" rel="noopener">LinkedIn <span aria-hidden="true">&nearr;</span></a>
+            <a href="https://github.com/SScofieldd" target="_blank" rel="noopener">GitHub <span aria-hidden="true">&nearr;</span></a>
+            <a href="{{ url_for('static', filename='Roshan_Singh_Resume.pdf') }}" target="_blank" rel="noopener">Resume <span aria-hidden="true">&nearr;</span></a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div><a class="brand footer-brand" href="#top"><span class="brand-mark" aria-hidden="true">RS</span><span class="brand-copy">Roshan Singh<small>Ocean engineering &amp; automation</small></span></a></div>
+    <p>&copy; <span id="current-year">2026</span> Roshan Singh. Built around engineering that works.</p>
+  </footer>
+  <script src="{{ url_for('static', filename='portfolio.js') }}" defer></script>
 </body>
 </html>
