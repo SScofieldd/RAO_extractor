@@ -41,4 +41,5 @@ The same settings can be entered manually as a Web Service:
 - `/` - portfolio
 - `/rao-extractor` - RAO/PDF extraction tool
 - `/orcaflex-toolkit` - engineering calculator collection
+- `/knowledge-graph/` - interactive fatigue, VIV and interference knowledge graph
 - `/health` - deployment health check

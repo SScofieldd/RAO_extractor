@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1.0" />
+<title>Interference Analysis — Interactive Workflow</title>
+<style>
+:root{
+ --bg:#07101b;--panel:#111d2f;--panel2:#17243a;--text:#f5f8ff;--muted:#9fb0c6;
+ --blue:#5aa7ff;--green:#38d695;--purple:#a47bff;--orange:#ff9e55;--red:#ff6670;--grey:#98a7b9;
+ --line:#55708e;--shadow:0 18px 46px rgba(0,0,0,.38)
+}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:radial-gradient(circle at 50% 0,#14243d 0,#0b1626 34%,#060d17 100%);color:var(--text);font:14px/1.45 Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;min-height:100vh}button,a{font:inherit}.top{height:66px;display:flex;align-items:center;padding:0 20px;border-bottom:1px solid rgba(255,255,255,.06);background:rgba(5,12,21,.82);backdrop-filter:blur(14px);position:sticky;top:0;z-index:50}.brand{font-weight:850;letter-spacing:.02em}.brand small{display:block;font-size:11px;color:var(--muted);font-weight:500;margin-top:2px}.top-actions{margin-left:auto;display:flex;gap:8px;flex-wrap:wrap}.btn{border:1px solid #354a63;background:#0d1b2d;color:#e9f2ff;padding:8px 11px;border-radius:9px;text-decoration:none;cursor:pointer}.btn:hover{border-color:#6b88a8;background:#12243a}.btn.accent{border-color:#446d9b;background:#102b47}
+.wrap{width:min(1420px,96vw);margin:0 auto;padding:24px 0 50px}.hero{display:grid;grid-template-columns:1.15fr .85fr;gap:18px}.card{background:linear-gradient(180deg,#142137,#0e1929);border:1px solid #2b415c;border-radius:18px;box-shadow:var(--shadow)}.hero-copy{padding:26px}.eyebrow{display:inline-flex;gap:8px;align-items:center;padding:7px 10px;border-radius:999px;background:#0f2135;border:1px solid #315270;color:#cfe8ff;font-size:12px}.spark{width:8px;height:8px;border-radius:50%;background:var(--orange);box-shadow:0 0 15px var(--orange)}h1{font-size:34px;line-height:1.08;margin:16px 0 10px}.hero-copy p{color:var(--muted);max-width:820px}.tagrow{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}.tag{padding:6px 9px;border-radius:999px;background:#0d1d30;border:1px solid #2f465f;color:#dce9f8;font-size:11px}.summary{padding:22px}.summary h3{margin:0 0 10px;font-size:17px}.summary ul{padding-left:18px;color:#dce8f6}.callout{margin-top:12px;padding:12px 13px;border-left:4px solid var(--orange);background:#152230;border-radius:10px;color:#dbe8f5}
+.section{margin-top:22px}.section h2{font-size:23px;margin:0 0 5px}.section>p{margin:0 0 13px;color:var(--muted)}
+.decision{position:relative;overflow:auto;padding:22px}.decision-map{position:relative;width:1160px;min-width:1160px;height:620px}.decision-map svg{position:absolute;inset:0;width:100%;height:100%}.dnode{position:absolute;width:220px;min-height:78px;padding:12px 14px;border-radius:12px;background:linear-gradient(145deg,#182840,#112035);border:1px solid #3d5874;box-shadow:0 10px 25px rgba(0,0,0,.3);cursor:pointer;transition:.2s}.dnode:hover{transform:translateY(-3px);border-color:#83a9cf}.dnode h3{font-size:13px;margin:0 0 4px}.dnode p{font-size:11px;margin:0;color:var(--muted)}.dnode.blue{border-color:#3978bd}.dnode.orange{border-color:#b9662f}.dnode.red{border-color:#b84c56}.dnode.green{border-color:#308b66;background:linear-gradient(145deg,#12352f,#112a2c)}.dnode.purple{border-color:#7b61b7}.dnode.core{border-color:#ff9e55;box-shadow:0 0 25px rgba(255,158,85,.18)}
+.d1{left:20px;top:28px}.d2{left:280px;top:28px}.d3{left:540px;top:28px}.d4{left:800px;top:28px}.d5{left:800px;top:160px}.d6{left:540px;top:160px}.d7{left:280px;top:160px}.d8{left:20px;top:160px}.d9{left:20px;top:315px}.d10{left:280px;top:315px}.d11{left:540px;top:315px}.d12{left:800px;top:315px}.d13{left:540px;top:470px}.d14{left:280px;top:470px}.d15{left:800px;top:470px;width:220px;text-align:center}.path{fill:none;stroke:#607894;stroke-width:2.25;filter:drop-shadow(0 0 4px rgba(120,176,235,.34));marker-end:url(#arrowBlue)}.path.orange{stroke:#e58549;filter:drop-shadow(0 0 4px rgba(255,158,85,.35));marker-end:url(#arrowOrange)}.path.red{stroke:#e15c66;filter:drop-shadow(0 0 4px rgba(255,102,112,.35));marker-end:url(#arrowRed)}.path.green{stroke:#3ecf94;filter:drop-shadow(0 0 4px rgba(56,214,149,.35));marker-end:url(#arrowGreen)}.flowdot{fill:#9ed1ff;filter:drop-shadow(0 0 7px #9ed1ff)}.flowdot.o{fill:#ffb06d;filter:drop-shadow(0 0 7px #ffb06d)}.flowdot.r{fill:#ff7c86;filter:drop-shadow(0 0 7px #ff7c86)}.flowdot.g{fill:#56efb0;filter:drop-shadow(0 0 7px #56efb0)}.branch-label{font-size:10px;font-weight:800;letter-spacing:.06em;paint-order:stroke;stroke:#0c1728;stroke-width:4px;stroke-linejoin:round}
+.workflow{display:grid;gap:14px}.stage-row{display:grid;grid-template-columns:145px 1fr;gap:14px;align-items:stretch}.stage-label{border:1px solid #38536c;border-radius:15px;padding:16px 12px;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;background:#101c2e;box-shadow:0 10px 22px rgba(0,0,0,.22)}.stage-label b{font-size:15px}.stage-label small{color:var(--muted);margin-top:4px}.stage-label.blue{border-color:#3e7fc7;color:#b9dcff}.stage-label.green{border-color:#398b62;color:#b8f4d5}.stage-label.purple{border-color:#8059be;color:#d6c4ff}.stage-label.orange{border-color:#bd6f37;color:#ffd1ab}.stage-label.red{border-color:#b94a55;color:#ffc2c7}.stage-label.grey{border-color:#66778b;color:#d9e0e7}.stage-body{border:1px dashed #3b526e;border-radius:15px;background:rgba(14,26,43,.76);padding:14px;overflow:auto}.flowline{display:flex;align-items:center;gap:10px;min-width:max-content}.step{width:190px;min-height:88px;border-radius:12px;background:#15243a;border:1px solid #3f5e7d;padding:12px;cursor:pointer;transition:.2s}.step:hover{transform:translateY(-3px);border-color:#7fa7d0}.step b{display:block;font-size:12px;margin-bottom:5px}.step span{font-size:10px;color:var(--muted)}.step.green{border-color:#398c64}.step.purple{border-color:#805cb9}.step.orange{border-color:#bf7040}.step.red{border-color:#bd5059}.step.grey{border-color:#63748a}.arrow{font-size:22px;color:#7890ad}.decision-diamond{width:128px;height:128px;display:grid;place-items:center;text-align:center;transform:rotate(45deg);border:1px solid #b46d39;background:#172437;margin:2px 22px;flex:none;cursor:pointer}.decision-diamond span{transform:rotate(-45deg);font-size:11px;width:92px}.decision-diamond.red{border-color:#c4515b}.decision-diamond.blue{border-color:#3e7fc7}.split{display:grid;grid-template-columns:1fr 1fr;gap:10px;min-width:430px}.branchbox{border:1px solid #3d5872;border-radius:11px;background:#122036;padding:10px;font-size:11px;color:#dbe8f5;cursor:pointer}.branchbox:hover{border-color:#7fa7d0}
+.sens-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.sens{padding:18px;position:relative;overflow:hidden}.sens::before{content:"";position:absolute;inset:0 auto 0 0;width:4px;background:var(--blue)}.sens:nth-child(2)::before{background:var(--green)}.sens:nth-child(3)::before{background:var(--purple)}.sens h3{margin:0 0 7px}.sens p{color:var(--muted);margin:0}.sens .answer{margin-top:12px;color:#e9f4ff;font-weight:650}.insight{margin-top:14px;padding:14px;border:1px solid #3f5a77;background:#0f1f32;border-radius:12px;color:#dceaf7}.insight b{color:#fff}
+.refgrid{display:grid;grid-template-columns:1.1fr .9fr;gap:18px}.reference{padding:18px}.reference img{width:100%;display:block;border-radius:12px;border:1px solid #364d67;background:#fff}.reference p{color:var(--muted)}.check{padding:18px}.check h3{margin-top:0}.check ul{padding-left:18px;color:#dbe8f5}.mini{margin-top:12px;padding:10px 12px;border-radius:10px;background:#0f1d2f;border:1px solid #324964;color:#dce8f5;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px}
+.panel{position:fixed;right:-440px;top:0;width:min(420px,92vw);height:100vh;background:#0a1524;border-left:1px solid #2c4058;box-shadow:-18px 0 50px rgba(0,0,0,.45);z-index:80;transition:.28s right;display:flex;flex-direction:column}.panel.open{right:0}.overlay{position:fixed;inset:0;background:rgba(3,8,14,.78);z-index:70;display:none}.overlay.show{display:block}.phead{display:flex;gap:12px;padding:18px;border-bottom:1px solid rgba(255,255,255,.07)}.phead h3{margin:0;font-size:18px}.phead p{margin:4px 0 0;color:var(--muted);font-size:12px}.close{margin-left:auto;width:34px;height:34px;border-radius:9px;border:1px solid #34465e;background:#111f31;color:#fff;cursor:pointer}.pbody{padding:18px;overflow:auto}.pbody .label{font-size:10px;text-transform:uppercase;letter-spacing:.11em;color:#7f93ac;margin:16px 0 7px}.pbody ul{padding-left:18px;color:#dce7f4}.pbody .metric{padding:9px 10px;border:1px solid #344b66;border-radius:9px;background:#0f1f32;margin:7px 0}.warn{border-color:#75454e!important;color:#ffd7dc}.ok{border-color:#356c59!important;color:#c6f7df}
+@media(max-width:980px){.hero,.refgrid,.sens-grid{grid-template-columns:1fr}.stage-row{grid-template-columns:1fr}.stage-label{min-height:90px}.wrap{width:min(98vw,1420px)}.top{height:auto;min-height:66px;padding-block:10px}.top-actions{justify-content:flex-end}h1{font-size:29px}}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="brand">Riser / Umbilical Interference Analysis<small>Interactive OrcaFlex screening, dynamics, collision & sensitivity workflow</small></div>
+  <div class="top-actions"><a class="btn" href="index.html">Fatigue Analysis</a><a class="btn" href="viv/index.html">VIV Analysis</a><button class="btn accent" onclick="document.documentElement.requestFullscreen?.()">Fullscreen</button></div>
+</header>
+<div class="wrap">
+<section class="hero">
+  <div class="card hero-copy">
+    <div class="eyebrow"><span class="spark"></span> INTERFERENCE ANALYSIS · standalone module</div>
+    <h1>From line-pair screening to minimum clearance, clash energy and design decision.</h1>
+    <p>This map combines the detailed DNV-RP-F203-informed interference workflow with the project decision chain you supplied: base OrcaFlex model → metocean / vessel offsets → load-case matrix → 100-year current 360° sweep → minimum clearance → dynamic re-analysis of critical cases → PCA clearance / clash evaluation → clash-energy acceptance or design change.</p>
+    <div class="tagrow"><span class="tag">OrcaFlex statics</span><span class="tag">360° current sweep</span><span class="tag">Wake sensitivity</span><span class="tag">Dynamic clearance</span><span class="tag">Interference.py PCA</span><span class="tag">Clash energy</span><span class="tag">Sensitivity studies</span></div>
+  </div>
+  <div class="card summary">
+    <h3>Engineering question</h3>
+    <ul><li>Which line pairs are actually credible interference candidates?</li><li>What is the minimum whole-line clearance and where does it occur?</li><li>Do associated waves / vessel motions create a dynamic clash?</li><li>If contact is permitted, is the governing collision demand acceptable?</li><li>Which parameter is driving the interference result?</li></ul>
+    <div class="callout"><b>Project-specific criterion shown on this page:</b> clash energy check against <b>2.5 kJ</b>. Keep this clearly tied to the project / approved acceptance basis rather than treating it as a universal code limit.</div>
+  </div>
+</section>
+
+<section class="section">
+  <h2>Project Decision Chain</h2><p>A compact view of the workflow you described. Click any box for details.</p>
+  <div class="card decision">
+    <div class="decision-map">
+      <svg viewBox="0 0 1160 620" preserveAspectRatio="none">
+        <defs>
+          <marker id="arrowBlue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#607894"/></marker>
+          <marker id="arrowOrange" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#e58549"/></marker>
+          <marker id="arrowRed" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#e15c66"/></marker>
+          <marker id="arrowGreen" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#3ecf94"/></marker>
+        </defs>
+        <!-- Main snake: inputs -> matrix -> static screening -> dynamics -> clash -->
+        <path id="q1" class="path" d="M240,68 L280,68"/>
+        <path id="q2" class="path" d="M500,68 L540,68"/>
+        <path id="q3" class="path" d="M760,68 L800,68"/>
+        <path id="q4" class="path orange" d="M910,106 L910,160"/>
+        <path id="q5" class="path orange" d="M800,200 L760,200"/>
+        <path id="q6" class="path orange" d="M540,200 L500,200"/>
+        <path id="q7" class="path orange" d="M280,200 L240,200"/>
+        <path id="q8" class="path orange" d="M130,238 L130,315"/>
+        <path id="q9" class="path" d="M240,355 L280,355"/>
+        <path id="q10" class="path" d="M500,355 L540,355"/>
+        <path id="q11" class="path red" d="M760,355 L800,355"/>
+        <!-- Decision branches -->
+        <path id="q12" class="path green" d="M650,393 C700,430 815,438 900,470"/>
+        <path id="q13" class="path red" d="M910,393 C900,430 790,445 650,470"/>
+        <path id="q14" class="path red" d="M540,510 L500,510"/>
+        <path id="q15" class="path green" d="M760,510 L800,510"/>
+        <!-- Static screen-out branch to PASS -->
+        <path id="q16" class="path green" d="M390,238 C390,285 1080,265 1080,400 C1080,445 1005,463 970,470"/>
+        <!-- Design-change feedback loop -->
+        <path id="q17" class="path red" d="M280,510 C105,510 12,455 12,270 C12,130 12,78 20,68"/>
+
+        <text x="244" y="187" class="branch-label" fill="#ffb06d">CRITICAL</text>
+        <text x="655" y="418" class="branch-label" fill="#56efb0">NO CLASH</text>
+        <text x="850" y="430" class="branch-label" fill="#ff7c86">CLASH</text>
+        <text x="505" y="500" class="branch-label" fill="#ff7c86">NO</text>
+        <text x="770" y="500" class="branch-label" fill="#56efb0">YES</text>
+        <text x="478" y="274" class="branch-label" fill="#56efb0">NO CONCERN</text>
+
+        <!-- Electric / neural particles on every connection -->
+        <circle r="4" class="flowdot"><animateMotion dur="2.4s" repeatCount="indefinite"><mpath href="#q1"/></animateMotion></circle>
+        <circle r="4" class="flowdot"><animateMotion dur="2.6s" repeatCount="indefinite"><mpath href="#q2"/></animateMotion></circle>
+        <circle r="4" class="flowdot"><animateMotion dur="2.4s" repeatCount="indefinite"><mpath href="#q3"/></animateMotion></circle>
+        <circle r="4" class="flowdot o"><animateMotion dur="2.8s" repeatCount="indefinite"><mpath href="#q4"/></animateMotion></circle>
+        <circle r="4" class="flowdot o"><animateMotion dur="2.3s" repeatCount="indefinite"><mpath href="#q5"/></animateMotion></circle>
+        <circle r="4" class="flowdot o"><animateMotion dur="2.3s" repeatCount="indefinite"><mpath href="#q6"/></animateMotion></circle>
+        <circle r="4" class="flowdot o"><animateMotion dur="2.3s" repeatCount="indefinite"><mpath href="#q7"/></animateMotion></circle>
+        <circle r="4" class="flowdot o"><animateMotion dur="2.8s" repeatCount="indefinite"><mpath href="#q8"/></animateMotion></circle>
+        <circle r="4" class="flowdot"><animateMotion dur="2.4s" repeatCount="indefinite"><mpath href="#q9"/></animateMotion></circle>
+        <circle r="4" class="flowdot"><animateMotion dur="2.4s" repeatCount="indefinite"><mpath href="#q10"/></animateMotion></circle>
+        <circle r="4" class="flowdot r"><animateMotion dur="2.4s" repeatCount="indefinite"><mpath href="#q11"/></animateMotion></circle>
+        <circle r="4" class="flowdot g"><animateMotion dur="3.4s" repeatCount="indefinite"><mpath href="#q12"/></animateMotion></circle>
+        <circle r="4" class="flowdot r"><animateMotion dur="3.2s" repeatCount="indefinite"><mpath href="#q13"/></animateMotion></circle>
+        <circle r="4" class="flowdot r"><animateMotion dur="2.5s" repeatCount="indefinite"><mpath href="#q14"/></animateMotion></circle>
+        <circle r="4" class="flowdot g"><animateMotion dur="2.5s" repeatCount="indefinite"><mpath href="#q15"/></animateMotion></circle>
+        <circle r="4" class="flowdot g"><animateMotion dur="6.0s" repeatCount="indefinite"><mpath href="#q16"/></animateMotion></circle>
+        <circle r="4" class="flowdot r"><animateMotion dur="6.4s" repeatCount="indefinite"><mpath href="#q17"/></animateMotion></circle>
+      </svg>
+      <div class="dnode blue d1" onclick="openNode('base')"><h3>BASE ORCAFLEX MODEL</h3><p>Geometry, line properties, topside / subsea layout.</p></div>
+      <div class="dnode blue d2" onclick="openNode('metocean')"><h3>CLIENT METOCEAN DATA</h3><p>Current + associated wave basis.</p></div>
+      <div class="dnode blue d3" onclick="openNode('offset')"><h3>VESSEL OFFSET DATA</h3><p>Heading, offset / setdown, motion basis.</p></div>
+      <div class="dnode purple d4" onclick="openNode('matrix')"><h3>LOAD-CASE MATRIX</h3><p>Environmental and operational scenarios.</p></div>
+      <div class="dnode orange d5" onclick="openNode('sweep')"><h3>100-YEAR CURRENT 360° SWEEP</h3><p>Static screening across headings.</p></div>
+      <div class="dnode orange d6" onclick="openNode('clearance')"><h3>MINIMUM CLEARANCE</h3><p>Whole-line surface clearance + arc length.</p></div>
+      <div class="dnode orange d7" onclick="openNode('critical')"><h3>CRITICAL CASE?</h3><p>No concern → screen out. Critical → dynamic route.</p></div>
+      <div class="dnode orange d8" onclick="openNode('wave')"><h3>ADD ASSOCIATED WAVE</h3><p>Apply wave / vessel motions to governing cases.</p></div>
+      <div class="dnode blue d9" onclick="openNode('dynamic')"><h3>RUN DYNAMICS</h3><p>Time-domain OrcaFlex for selected cases.</p></div>
+      <div class="dnode blue d10" onclick="openNode('pca')"><h3>Interference.py PCA</h3><p>Δmin + arc length + governing time.</p></div>
+      <div class="dnode red d11" onclick="openNode('clash')"><h3>CLASH OCCURS?</h3><p>No → pass. Yes → obtain contact demand.</p></div>
+      <div class="dnode red d12" onclick="openNode('energy')"><h3>CLASH ENERGY</h3><p>Impact / clash result for governing event.</p></div>
+      <div class="dnode red d13" onclick="openNode('threshold')"><h3>E &lt; 2.5 kJ?</h3><p>Project acceptance threshold.</p></div>
+      <div class="dnode red d14" onclick="openNode('designchange')"><h3>DESIGN CHANGE</h3><p>Modify geometry / boundary / line properties.</p></div>
+      <div class="dnode green d15" onclick="openNode('pass')"><h3>PASS</h3><p>Acceptable interference result.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <h2>Full Interference Analysis Workflow</h2><p>Detailed implementation arranged in the same seven-stage logic as the supplied reference workflow.</p>
+  <div class="workflow">
+    <div class="stage-row"><div class="stage-label blue"><b>1. INPUTS</b><small>Model + criteria</small></div><div class="stage-body"><div class="flowline">
+      <div class="step" onclick="openNode('field')"><b>Field Layout</b><span>Topside & subsea positions / corridors.</span></div><span class="arrow">→</span>
+      <div class="step" onclick="openNode('linedata')"><b>Line Data</b><span>OD, mass, stiffness, length, coatings.</span></div><span class="arrow">→</span>
+      <div class="step" onclick="openNode('metocean')"><b>Metocean Data</b><span>Current, wave, water depth.</span></div><span class="arrow">→</span>
+      <div class="step" onclick="openNode('vessel')"><b>Vessel Data</b><span>Offsets, heading, motions / RAO.</span></div><span class="arrow">→</span>
+      <div class="step" onclick="openNode('basis')"><b>Design Basis & Operating Conditions</b><span>Cases, configurations, operating states.</span></div><span class="arrow">→</span>
+      <div class="step" onclick="openNode('criteria')"><b>Acceptance Criteria</b><span>Clearance / clash requirements.</span></div>
+    </div></div></div>
+
+    <div class="stage-row"><div class="stage-label green"><b>2. IDENTIFY INTERFERING PAIRS</b><small>Engineering screening</small></div><div class="stage-body"><div class="flowline">
+      <div class="step green" onclick="openNode('identify')"><b>Identify All Lines in Model</b><span>Risers, umbilicals, moorings, jumpers, etc.</span></div><span class="arrow">→</span>
+      <div class="step green" onclick="openNode('pairselect')"><b>Screen Potential Interfering Pairs</b><span>Proximity, route, depth, motion envelope, engineering judgment.</span></div><span class="arrow">→</span>
+      <div class="step green" onclick="openNode('pairmatrix')"><b>Interference Pair Matrix</b><span>Pair / relevance / further-analysis status.</span></div>
+    </div></div></div>
+
+    <div class="stage-row"><div class="stage-label purple"><b>3. DEVELOP LOAD-CASE MATRIX</b><small>Scenario definition</small></div><div class="stage-body"><div class="flowline">
+      <div class="step purple" onclick="openNode('currentprofile')"><b>Current Speed Profile U(z)</b><span>Design profile or case-specific profile.</span></div><span class="arrow">→</span>
+      <div class="step purple" onclick="openNode('headings')"><b>Current Directions</b><span>360° heading sweep where required.</span></div><span class="arrow">→</span>
+      <div class="step purple" onclick="openNode('offset')"><b>Vessel Offsets</b><span>Upstream / downstream / transverse / setdown.</span></div><span class="arrow">→</span>
+      <div class="step purple" onclick="openNode('waveconditions')"><b>Wave Conditions</b><span>Hs, Tp and direction for associated cases.</span></div><span class="arrow">→</span>
+      <div class="step purple" onclick="openNode('wakebasis')"><b>Wake Model</b><span>OFF / suitable wake model as applicable.</span></div><span class="arrow">→</span>
+      <div class="step purple" onclick="openNode('daf')"><b>VIV Drag Amplification</b><span>DAF basis where included.</span></div>
+    </div></div></div>
+
+    <div class="stage-row"><div class="stage-label orange"><b>4. STATIC SCREENING</b><small>OrcaFlex</small></div><div class="stage-body"><div class="flowline">
+      <div class="step orange" onclick="openNode('statics')"><b>Build Model & Run Statics</b><span>Current + offsets; screening route may exclude waves.</span></div><span class="arrow">→</span>
+      <div class="step orange" onclick="openNode('clearance')"><b>Minimum Surface Clearance</b><span>Whole-line clearance, not single-node separation.</span></div><span class="arrow">→</span>
+      <div class="step orange" onclick="openNode('critical')"><b>Identify Critical Cases</b><span>Lowest minimum clearance cases.</span></div><span class="arrow">→</span>
+      <div class="step orange" onclick="openNode('wakecheck')"><b>Wake Sensitivity</b><span>Critical cases with wake OFF vs ON where relevant.</span></div><span class="arrow">→</span>
+      <div class="decision-diamond" onclick="openNode('wakeimportant')"><span>Wake effect important?</span></div><span class="arrow">→</span>
+      <div class="split"><div class="branchbox" onclick="openNode('wakeyes')"><b>YES</b><br>Use suitable wake basis and re-run statics.</div><div class="branchbox" onclick="openNode('wakeno')"><b>NO</b><br>Proceed with selected critical cases.</div></div>
+    </div></div></div>
+
+    <div class="stage-row"><div class="stage-label blue"><b>5. DYNAMIC ANALYSIS</b><small>OrcaFlex + PCA</small></div><div class="stage-body"><div class="flowline">
+      <div class="step" onclick="openNode('dynamic')"><b>Run Dynamics for Critical Cases</b><span>Add associated waves + vessel motions.</span></div><span class="arrow">→</span>
+      <div class="step" onclick="openNode('pca')"><b>Extract Clearance vs Time & Arc Length</b><span>Interference.py / PCA-style post-processing.</span></div><span class="arrow">→</span>
+      <div class="step" onclick="openNode('minimumdynamic')"><b>Find Dynamic Minimum</b><span>Minimum over time and arc length.</span></div><span class="arrow">→</span>
+      <div class="step" onclick="openNode('criteria')"><b>Check Required Clearance</b><span>Compare with approved acceptance basis.</span></div><span class="arrow">→</span>
+      <div class="decision-diamond blue" onclick="openNode('clearok')"><span>Clearance OK?</span></div><span class="arrow">→</span>
+      <div class="split"><div class="branchbox" onclick="openNode('pass')"><b>YES</b><br>Interference acceptable — no clash.</div><div class="branchbox" onclick="openNode('clashroute')"><b>NO</b><br>Move to collision / contact assessment.</div></div>
+    </div></div></div>
+
+    <div class="stage-row"><div class="stage-label red"><b>6. COLLISION ALLOWED</b><small>If required</small></div><div class="stage-body"><div class="flowline">
+      <div class="step red" onclick="openNode('contact')"><b>Enable Line Clash</b><span>Contact model / line clash configuration.</span></div><span class="arrow">→</span>
+      <div class="step red" onclick="openNode('clashresults')"><b>Obtain Clash Results</b><span>Impact velocity, force, impulse, energy, penetration.</span></div><span class="arrow">→</span>
+      <div class="step red" onclick="openNode('governing')"><b>Governing Clash Event</b><span>Identify governing time, location and line pair.</span></div><span class="arrow">→</span>
+      <div class="step red" onclick="openNode('localcheck')"><b>Perform Local Analysis</b><span>Submodel / code check using clash loads & energy.</span></div><span class="arrow">→</span>
+      <div class="decision-diamond red" onclick="openNode('localok')"><span>Local check OK?</span></div><span class="arrow">→</span>
+      <div class="split"><div class="branchbox" onclick="openNode('collisionaccept')"><b>YES</b><br>Acceptable with collision.</div><div class="branchbox" onclick="openNode('designchange')"><b>NO</b><br>Design modification required.</div></div>
+    </div></div></div>
+
+    <div class="stage-row"><div class="stage-label grey"><b>7. QA & REPORTING</b><small>Defensible conclusion</small></div><div class="stage-body"><div class="flowline">
+      <div class="step grey" onclick="openNode('qa')"><b>QA Checks</b><span>Geometry, segmentation, time step, wake verification, sanity checks.</span></div><span class="arrow">→</span>
+      <div class="step grey" onclick="openNode('plots')"><b>Key Plots</b><span>Clearance vs arc length/time, wake factor, critical snapshots.</span></div><span class="arrow">→</span>
+      <div class="step grey" onclick="openNode('summarytable')"><b>Results Summary Table</b><span>Case, min clearance, arc length, heading, offset, wake/DAF, pass/fail.</span></div><span class="arrow">→</span>
+      <div class="step grey" onclick="openNode('conclusion')"><b>Interpretation & Conclusion</b><span>Governing case and compliance with criteria.</span></div><span class="arrow">→</span>
+      <div class="step grey" onclick="openNode('report')"><b>Final Report</b><span>Traceable assumptions, results and design actions.</span></div>
+    </div></div></div>
+  </div>
+</section>
+
+<section class="section">
+  <h2>Sensitivity Analysis — What Is Driving the Result?</h2><p>Sensitivity is used to identify the physical driver, not merely to create another result table.</p>
+  <div class="sens-grid">
+    <div class="card sens"><h3>Departure Angle Sensitivity</h3><p>Vary the departure geometry and re-run the governing / critical cases.</p><div class="answer">Question: Can altering the departure geometry move the umbilical away from the tendons?</div></div>
+    <div class="card sens"><h3>Armour Sensitivity</h3><p>Modify line stiffness / weight characteristics consistently with the candidate armour change.</p><div class="answer">Question: Is excessive line movement or dynamic instability contributing to the interference?</div></div>
+    <div class="card sens"><h3>Offset Sensitivity</h3><p>Vary vessel offset / setdown boundary conditions around the governing configuration.</p><div class="answer">Question: Is the vessel boundary condition itself the main driver?</div></div>
+  </div>
+  <div class="insight"><b>Project interpretation supplied:</b> vessel offset / setdown appears particularly important, while increased armour also offers a strong design improvement. The page treats these as project-study conclusions, not universal behaviour.</div>
+</section>
+
+<section class="section refgrid">
+  <div class="card reference"><h3>Reference workflow supplied</h3><p>The image below is kept as the visual reference while the native HTML above provides the interactive version.</p><img src="assets/interference_reference.png" alt="DNV-RP-F203 riser interference analysis workflow reference" /></div>
+  <div class="card check"><h3>Minimum QA set before issuing a conclusion</h3><ul><li>Confirm geometry, line identifiers and topside / subsea positions.</li><li>Check line segmentation and contact / clearance resolution near critical zones.</li><li>Verify vessel offset / setdown sign conventions and headings.</li><li>Confirm current profile and direction convention.</li><li>Document wake basis and VIV drag amplification assumptions.</li><li>For dynamics, verify time step, duration, transient handling and associated waves.</li><li>Plot clearance versus arc length and time, not only a single minimum value.</li><li>Record governing time, arc length, pair, heading and offset.</li><li>Where collision is accepted, retain impact / clash metrics and local structural check evidence.</li><li>Keep sensitivity results tied back to the identified engineering driver.</li></ul>
+    <div class="mini">Recommended record per critical case:\nCase ID · Pair · Heading · Offset/Setdown · Wake/DAF · Δmin · Arc Length · Time · Clash? · Energy · Status</div>
+  </div>
+</section>
+</div>
+<div class="overlay" id="overlay" onclick="closePanel()"></div>
+<aside class="panel" id="panel"><div class="phead"><div><h3 id="ptitle"></h3><p id="psub"></p></div><button class="close" onclick="closePanel()">✕</button></div><div class="pbody" id="pbody"></div></aside>
+<script>
+const D={
+base:{t:'Base OrcaFlex Model',s:'Structural model foundation',p:'Provides the common geometry and line representation for all screening and dynamic cases.',i:['Field layout','Risers / umbilicals / moorings / jumpers','Line properties','Topside and subsea boundary locations'],o:['Validated base model for interference cases'],c:['Use consistent line naming','Check segmentation near expected close-approach zones','Confirm static configuration before case expansion']},
+metocean:{t:'Client Metocean Data',s:'Environmental basis',p:'Defines current and associated wave conditions used in the interference case matrix.',i:['Current profile','Current direction','Associated wave data where required'],o:['Environmental input set'],c:['Keep 100-year/current screening basis traceable','Use associated wave only when required by the selected dynamic case logic']},
+offset:{t:'Vessel Offset / Setdown',s:'Boundary-condition driver',p:'Defines vessel position and boundary conditions that can move flexible lines toward or away from adjacent structures.',i:['Offset envelope','Heading','Setdown','Motion / RAO basis for dynamic cases'],o:['Operational vessel-position cases'],c:['Verify sign convention','Treat offset/setdown as a sensitivity driver where results are strongly dependent on boundary position']},
+matrix:{t:'Load-Case Matrix',s:'Case-generation logic',p:'Combines environment, direction, vessel position, wave basis, wake assumptions and DAF into traceable interference cases.',i:['Metocean','Vessel data','Design / operating states','Wake / DAF assumptions'],o:['Unique case IDs','Static-screening set','Dynamic critical-case set'],c:['Avoid duplicate equivalent cases','Preserve traceability from case ID to every input']},
+sweep:{t:'100-Year Current 360° Sweep',s:'Static screening',p:'Screens the directional current space to identify headings that minimize clearance between relevant line pairs.',i:['100-year current profile','Heading sweep','Base static model'],o:['Clearance versus heading','Candidate critical headings'],c:['Use adequate heading resolution','Retain whole-line minimum, not only endpoint separation']},
+clearance:{t:'Minimum Surface Clearance',s:'Primary screening metric',p:'Determines the closest surface-to-surface separation between two lines over the complete relevant arc-length domains.',i:['Static or dynamic line positions','Line diameters / surfaces'],o:['Δmin','Arc-length location(s)','Critical pair / case'],c:['Surface clearance is not centreline distance','Inspect nearby local minima, not only a single scalar minimum']},
+critical:{t:'Critical Case Selection',s:'Screening decision',p:'Separates non-concerning cases from those requiring higher-fidelity wave / dynamic analysis.',i:['Minimum clearance','Engineering margin','Acceptance basis'],o:['Screened-out cases','Selected critical cases'],c:['Document selection threshold / rationale','Do not lose cases that are near-equivalent to the minimum']},
+wave:{t:'Associated Wave',s:'Dynamic enrichment',p:'Adds the wave condition associated with the governing environmental / operational case before dynamic simulation.',i:['Critical static case','Associated wave condition','Vessel motion basis'],o:['Dynamic load case'],c:['Ensure wave direction / phase convention is correct','Use the project association rule between current and wave']},
+dynamic:{t:'Run Dynamics',s:'Time-domain OrcaFlex',p:'Simulates time-varying line motion for the selected critical interference cases including waves and vessel motions.',i:['Critical case','Wave / vessel motions','Dynamic solver settings'],o:['Time histories of line position and separation'],c:['Check time step and duration','Remove or account for transient start-up','Confirm output sampling is sufficient for minimum-clearance capture']},
+pca:{t:'Interference.py PCA',s:'Post-processing',p:'Post-processes the two line geometries through time to find the point / pair of closest approach and the associated arc-length locations.',i:['Dynamic line geometry time histories'],o:['Δmin(t)','Governing minimum clearance','Arc lengths','Governing time'],c:['Verify coordinate / arc-length conventions','Spot-check critical event visually in OrcaFlex']},
+clash:{t:'Clash Occurs?',s:'Dynamic decision',p:'Determines whether the dynamic separation violates the no-contact clearance criterion.',i:['Dynamic minimum clearance','Required clearance'],o:['No-clash pass','Collision assessment route'],c:['Use the approved surface-clearance criterion']},
+energy:{t:'Clash Energy',s:'Collision demand',p:'Characterizes the governing collision event when line clash/contact is allowed or must be assessed.',i:['Impact velocity','Contact force / impulse','Contact-model outputs'],o:['Clash energy','Governing collision demand'],c:['Confirm contact model is physically appropriate','Identify the actual governing event, not only the largest force if energy governs']},
+threshold:{t:'E < 2.5 kJ?',s:'Project-specific check',p:'Checks clash energy against the threshold supplied for this project workflow.',i:['Governing clash energy'],o:['Acceptable collision or design-change trigger'],c:['2.5 kJ is presented here as project-specific','Confirm the approved basis before formal issue']},
+designchange:{t:'Design Change Required',s:'Mitigation branch',p:'Triggers modification when clearance or local clash acceptance is not met.',i:['Governing case','Sensitivity findings','Collision / clearance driver'],o:['Revised geometry / line properties / vessel envelope / mitigation'],c:['Target the identified driver instead of changing parameters arbitrarily','Re-run the full governing case after modification']},
+pass:{t:'PASS / Acceptable',s:'Decision output',p:'Records that the assessed line pair and governing cases satisfy the applicable interference acceptance basis.',i:['QA-complete result set'],o:['Accepted interference conclusion'],c:['Retain governing case and minimum margin in the report']},
+field:{t:'Field Layout',s:'Input',p:'Defines relative topside, subsea and routing geometry that controls whether lines can physically approach each other.',i:['Anchor / hang-off positions','Subsea assets','Line routes'],o:['Spatial layout basis'],c:['Coordinate system checked','Latest field layout revision used']},
+linedata:{t:'Line Data',s:'Input',p:'Defines line geometry and structural properties needed for correct static shape, motion and surface clearance.',i:['OD','Mass','Axial / bending stiffness','Length','Coatings / external diameter'],o:['Line model properties'],c:['Use external hydrodynamic / contact diameter consistently']},
+vessel:{t:'Vessel Data',s:'Input',p:'Defines offsets, heading and dynamic vessel motion inputs used as top-end boundary conditions.',i:['Offset / setdown','Heading','RAOs / motion time series where required'],o:['Vessel boundary-condition set'],c:['Coordinate/sign convention verified']},
+basis:{t:'Design Basis & Operating Conditions',s:'Input',p:'Defines which system configurations and operating states require interference assessment.',i:['Operating / survival states','Line configurations','Project design basis'],o:['Assessment scope'],c:['Include credible combinations only','Document exclusions']},
+criteria:{t:'Acceptance Criteria',s:'Input / decision basis',p:'Defines required clearance and, where applicable, acceptable collision / local structural criteria.',i:['Project / client criteria','Code / recommended-practice basis','Local component limits'],o:['Pass/fail thresholds'],c:['Keep clearance and collision criteria distinct','State any project-specific thresholds explicitly']},
+identify:{t:'Identify All Lines',s:'Pair-screening input',p:'Creates the complete population of flexible lines or structures that could participate in interference.',i:['Risers','Umbilicals','Moorings','Jumpers','Other relevant lines'],o:['Line inventory'],c:['Use model line IDs consistently']},
+pairselect:{t:'Screen Potential Interfering Pairs',s:'Engineering screening',p:'Reduces the full combinatorial line list to pairs that are physically credible interference candidates.',i:['Layout','Static shapes','Depth / route overlap','Motion envelopes'],o:['Selected line pairs'],c:['Document judgment used to exclude a pair','Revisit exclusions after major design changes']},
+pairmatrix:{t:'Interference Pair Matrix',s:'Traceability table',p:'Records each line pair, whether it is relevant and whether further static/dynamic analysis is required.',i:['All possible line pairs','Engineering screening'],o:['Pair matrix'],c:['One authoritative pair register avoids inconsistent screening between analysts']},
+currentprofile:{t:'Current Speed Profile U(z)',s:'Environmental case input',p:'Defines depth-varying current that influences static displacement and line proximity.',i:['Project current profile'],o:['Current field for each case'],c:['Depth reference and sign convention checked']},
+headings:{t:'Current Directions',s:'Directional cases',p:'Sweeps credible current headings to find orientations that drive the closest approach.',i:['Heading convention','Sweep resolution'],o:['Directional case set'],c:['Use consistent global/local heading definition']},
+waveconditions:{t:'Wave Conditions',s:'Dynamic cases',p:'Defines associated Hs, Tp and wave direction used when moving from static screening to dynamic interference analysis.',i:['Associated sea-state data'],o:['Dynamic wave load input'],c:['Tie each wave to the correct screened case']},
+wakebasis:{t:'Wake Model',s:'Hydrodynamic sensitivity',p:'Tests whether line shielding / wake interaction materially changes the static or dynamic interference result.',i:['Wake OFF baseline','Selected wake formulation'],o:['Wake sensitivity comparison'],c:['Use a suitable model only when relevant','Document why wake was included or excluded']},
+daf:{t:'VIV Drag Amplification',s:'Hydrodynamic modifier',p:'Applies a VIV-related drag amplification basis where required by the project interference methodology.',i:['DAF basis'],o:['Modified drag loading'],c:['Keep DAF source and applicability traceable']},
+statics:{t:'Run Statics',s:'OrcaFlex screening step',p:'Computes equilibrium shapes for every screening case before investing in time-domain dynamics.',i:['Current','Offset / setdown','Model configuration'],o:['Static line shapes','Static clearances'],c:['Confirm statics converged','Use consistent no-wave screening assumptions if that is the project method']},
+wakecheck:{t:'Wake Sensitivity Check',s:'Critical static cases',p:'Compares critical cases with wake influence OFF and ON to determine whether wake meaningfully alters minimum clearance.',i:['Critical cases','Wake OFF/ON variants'],o:['Wake sensitivity result'],c:['Focus on governing cases','Compare both Δmin and location shift']},
+wakeimportant:{t:'Wake Effect Important?',s:'Decision node',p:'Determines whether wake treatment must be retained in the selected analysis basis.',i:['Wake sensitivity'],o:['Proceed without wake refinement or re-run with suitable wake model'],c:['Decision should be based on result significance, not only percentage change']},
+wakeyes:{t:'Use Suitable Wake Model',s:'Wake refinement',p:'Re-runs the relevant static cases using the selected wake treatment when wake influence is material.',i:['Wake-sensitive cases'],o:['Updated critical-case ranking'],c:['Re-check which case governs after wake is applied']},
+wakeno:{t:'Proceed with Selected Cases',s:'Screening exit',p:'Carries the already-selected critical cases into dynamic analysis when wake does not materially alter the result.',i:['Critical static cases'],o:['Dynamic case list'],c:['Retain wake sensitivity evidence in QA package']},
+minimumdynamic:{t:'Dynamic Minimum Clearance',s:'PCA result',p:'Finds the global minimum separation over simulation time and both line arc-length coordinates.',i:['Clearance field over time'],o:['Dynamic Δmin','Governing time','Arc length(s)'],c:['Visualize the event','Check for multiple near-identical minima']},
+clearok:{t:'Clearance OK?',s:'Dynamic acceptance decision',p:'Compares the governing dynamic minimum with the required no-clash clearance.',i:['Δmin','Required clearance'],o:['No-clash acceptance or collision route'],c:['Make criterion basis explicit']},
+clashroute:{t:'Collision / Contact Route',s:'Escalation',p:'Moves the case to explicit clash/contact modelling when the no-contact requirement is not satisfied.',i:['Failed clearance case'],o:['Contact-analysis case'],c:['Use only if collision assessment is permitted by the design basis']},
+contact:{t:'Enable Line Clash',s:'OrcaFlex contact model',p:'Activates the line contact / clash representation needed to compute impact response.',i:['Contact parameters','Critical dynamic case'],o:['Contact time histories'],c:['Review stiffness/damping/contact assumptions','Check numerical stability']},
+clashresults:{t:'Obtain Clash Results',s:'Collision outputs',p:'Extracts the collision quantities needed for acceptance and local analysis.',i:['Contact simulation'],o:['Impact velocity','Clash force','Impulse','Clash energy','Penetration'],c:['Check consistency between event time and line-pair geometry']},
+governing:{t:'Governing Clash Event',s:'Event selection',p:'Selects the collision event that governs the required local or code check.',i:['All clash events'],o:['Governing time and location'],c:['Governing energy, force or impulse may not occur at the same event — follow the chosen criterion']},
+localcheck:{t:'Perform Local Analysis',s:'Submodel / code check',p:'Uses clash demand to demonstrate local structural acceptability when collision is permitted.',i:['Clash loads / energy','Local structural model','Acceptance criteria'],o:['Local pass/fail'],c:['Match the local model to the governing event and contact geometry']},
+localok:{t:'Local Check OK?',s:'Collision acceptance decision',p:'Determines whether the line/component can tolerate the governing collision demand.',i:['Local analysis result'],o:['Accept with collision or design modification'],c:['Trace conclusion to the exact governing event']},
+collisionaccept:{t:'Acceptable with Collision',s:'Conditional acceptance',p:'Records acceptance when controlled collision is allowed and the local structural checks pass.',i:['Collision analysis','Local pass result'],o:['Accepted collision case'],c:['Document all assumptions and residual risks']},
+qa:{t:'QA Checks',s:'Verification',p:'Confirms the numerical model and post-processing are sufficiently robust for an interference conclusion.',i:['Model geometry','Segmentation','Time step','Wake basis','Results'],o:['QA evidence'],c:['Sanity-check critical cases visually','Record revision and input provenance']},
+plots:{t:'Key Plots',s:'Engineering evidence',p:'Makes the result understandable and reviewable beyond a single minimum value.',i:['Clearance histories','Wake factors','Static shapes','Dynamic events'],o:['Clearance vs arc length','Clearance vs time','Critical snapshots','Layout / shape plots'],c:['Mark governing time and position clearly']},
+summarytable:{t:'Results Summary Table',s:'Decision record',p:'Provides a concise case-by-case register of screening and final acceptance results.',i:['All relevant cases'],o:['Min clearance','Arc length','Heading / offset','Wake / DAF','Pass/fail'],c:['Keep one row per case / pair with unique identifiers']},
+conclusion:{t:'Interpretation & Conclusion',s:'Engineering judgment',p:'Identifies the governing cases, explains the physical driver and states compliance with the approved criteria.',i:['Results','Sensitivity studies','QA'],o:['Defensible engineering conclusion'],c:['Explain why the case governs','Separate observed trends from assumptions']},
+report:{t:'Final Report & Documentation',s:'Deliverable',p:'Captures model basis, methodology, QA, results, sensitivities, governing cases and design actions.',i:['Complete analysis package'],o:['Issued interference report'],c:['Trace every conclusion to input revision, case ID and result evidence']}
+};
+function openNode(k){const d=D[k];if(!d)return;document.getElementById('ptitle').textContent=d.t;document.getElementById('psub').textContent=d.s;let h=`<p>${d.p}</p><div class="label">Inputs</div><ul>${(d.i||[]).map(x=>`<li>${x}</li>`).join('')}</ul><div class="label">Outputs</div><ul>${(d.o||[]).map(x=>`<li>${x}</li>`).join('')}</ul><div class="label">Key checks / engineering notes</div>${(d.c||[]).map(x=>`<div class="metric ${x.includes('project-specific')||x.includes('2.5 kJ')?'warn':''}">${x}</div>`).join('')}`;document.getElementById('pbody').innerHTML=h;document.getElementById('panel').classList.add('open');document.getElementById('overlay').classList.add('show')}
+function closePanel(){document.getElementById('panel').classList.remove('open');document.getElementById('overlay').classList.remove('show')}document.addEventListener('keydown',e=>{if(e.key==='Escape')closePanel()});
+</script>
+</body>
+</html>
