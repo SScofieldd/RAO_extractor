@@ -118,6 +118,16 @@ from flask import Flask, render_template, request, jsonify
 def orcaflex_toolkit():
     return render_template('orcaflex_toolkit.html')
 
+
+@app.route('/knowledge-graph/')
+def knowledge_graph():
+    return send_from_directory('knowledge_graph', 'index.html')
+
+
+@app.route('/knowledge-graph/<path:filename>')
+def knowledge_graph_file(filename):
+    return send_from_directory('knowledge_graph', filename)
+
 # Vessel Corner Generator (AJAX)
 @app.route('/orcaflex-toolkit/corner', methods=['POST'])
 def orcaflex_corner():

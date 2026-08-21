@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1.0" />
+<title>Environment — Fatigue Branch</title>
+<style>
+:root{--bg:#0b1423;--panel:#162236;--panel2:#1b2a42;--text:#f3f8ff;--muted:#9ab0c8;--cyan:#49d6d1;--blue:#5da6ff;--violet:#9b79ff;--green:#2ed29d;--line:#5f7694;--shadow:0 16px 44px rgba(0,0,0,.36)}
+*{box-sizing:border-box} body{margin:0;background:radial-gradient(circle at 50% 0%, #172642 0, #0d1728 36%, #09111d 100%);color:var(--text);font:14px/1.45 Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+a{color:inherit;text-decoration:none} button{font:inherit}
+.top{position:sticky;top:0;z-index:30;display:flex;align-items:center;gap:12px;height:66px;padding:0 20px;border-bottom:1px solid rgba(255,255,255,.06);background:rgba(8,16,28,.78);backdrop-filter:blur(12px)}
+.brand{font-weight:800}.brand small{display:block;color:var(--muted);font-weight:500;font-size:11px;margin-top:2px}.top-actions{margin-left:auto;display:flex;gap:8px}.btn{border:1px solid #38506a;background:#102033;color:#e4efff;padding:9px 12px;border-radius:10px;cursor:pointer}.btn:hover{border-color:#6a85a6}.btn.primary{background:#153049;border-color:#507ba6}
+.wrap{width:min(1320px,96vw);margin:0 auto;padding:24px 0 40px}
+.hero{display:grid;grid-template-columns:1.05fr .95fr;gap:18px;align-items:stretch}.card{border:1px solid #2d425d;border-radius:18px;background:linear-gradient(180deg,#172438,#121d2f);box-shadow:var(--shadow)}
+.hero-copy{padding:24px}.eyebrow{display:inline-flex;gap:8px;align-items:center;border:1px solid #35526e;background:#112235;border-radius:999px;padding:7px 10px;color:#cae9ff;font-size:12px}.dot{width:8px;height:8px;border-radius:50%;background:var(--cyan);box-shadow:0 0 14px var(--cyan)} h1{font-size:34px;line-height:1.08;margin:16px 0 10px} .hero-copy p{color:var(--muted);max-width:720px}
+.note-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}.pill{padding:6px 9px;border-radius:999px;background:#102033;border:1px solid #314763;color:#d6e4f8;font-size:11px}
+.hero-summary{padding:22px}.hero-summary h3{margin:0 0 10px;font-size:16px}.list{margin:0;padding-left:18px;color:#dbe7f6}
+.section{margin-top:20px}.section h2{font-size:24px;margin:0 0 6px}.section p{color:var(--muted);margin:0 0 14px}
+.flow-shell{position:relative;border:1px solid #2b4059;border-radius:22px;background:linear-gradient(180deg,#142135,#0f1b2d);box-shadow:var(--shadow);padding:18px;overflow:auto}
+.flow{position:relative;min-width:1080px;height:1360px}
+.flow svg{position:absolute;inset:0;width:100%;height:100%}
+.node{position:absolute;width:255px;min-height:92px;padding:14px 16px;border-radius:14px;border:1px solid #3b5574;background:linear-gradient(145deg,#1c2c46,#152237);box-shadow:0 12px 30px rgba(0,0,0,.26);cursor:pointer;transition:.2s transform,.2s border-color,.2s box-shadow}
+.node:hover{transform:translateY(-3px);border-color:#89abd0;box-shadow:0 16px 36px rgba(0,0,0,.35)} .node h3{margin:0 0 4px;font-size:15px}.node p{margin:0;color:var(--muted);font-size:12px}.node small{display:block;margin-top:8px;color:#c9daee;font-size:11px}
+.node.input{border-color:#6d86a9}.node.input .cap{background:#20314b}.node.env{border-color:#2c78ba}.node.env .cap{background:#15395c}.node.sectionnode{border-color:#955df0}.node.sectionnode .cap{background:#35215c}.node.output{border-color:#2e9d7f}.node.output .cap{background:#123d35}.node.decision{border-color:#7fa7d0;background:linear-gradient(145deg,#17283c,#132233)}
+.cap{display:inline-grid;place-items:center;width:28px;height:28px;border-radius:8px;color:#fff;font-weight:700;margin-right:10px;float:left}
+.n0{left:397px;top:18px;width:300px;text-align:center;border-radius:18px}
+.n1{left:55px;top:170px}.n2{left:410px;top:170px;width:275px}.n3{right:55px;top:170px}.n4{left:315px;top:350px;width:460px;text-align:center;min-height:82px;clip-path:polygon(8% 0,92% 0,100% 50%,92% 100%,8% 100%,0 50%)}
+.n5{left:105px;top:500px;width:310px}.n6{right:105px;top:500px;width:310px}.n7{left:315px;top:530px;width:460px;text-align:center;min-height:82px;clip-path:polygon(8% 0,92% 0,100% 50%,92% 100%,8% 100%,0 50%)}
+.n8{left:45px;top:710px;width:320px}.n9{right:45px;top:710px;width:320px}.n10{left:45px;top:875px;width:320px}.n11{right:45px;top:875px;width:320px}.n12{left:295px;top:1030px;width:485px;text-align:center}.n13{left:255px;top:1190px;width:565px;text-align:center}
+.path{fill:none;stroke:#627891;stroke-width:2} .path.blue{stroke:#5397dc} .path.green{stroke:#28be93} .path.violet{stroke:#9675ff} .flow-dot{fill:#7de8e0;filter:drop-shadow(0 0 6px #7de8e0)} .flow-dot.blue{fill:#70b7ff;filter:drop-shadow(0 0 6px #70b7ff)} .flow-dot.green{fill:#4cf1be;filter:drop-shadow(0 0 6px #4cf1be)}
+.grid{display:grid;grid-template-columns:1.08fr .92fr;gap:18px;margin-top:20px}.detail,.ref{padding:18px}.detail h3,.ref h3{margin:0 0 10px;font-size:17px}.detail p,.ref p{color:var(--muted)} .stack{display:flex;flex-wrap:wrap;gap:8px}.chip{padding:6px 9px;border-radius:999px;background:#112134;border:1px solid #304760;font-size:11px;color:#d8e6fb}.checklist{padding-left:18px;color:#dbe9f8}.eq{margin:10px 0;padding:10px 12px;border:1px solid #36516e;border-radius:10px;background:#0f1d2f;font-family:Georgia,serif}
+.ref img{width:100%;border:1px solid #314760;border-radius:12px;background:#fff}.callout{margin-top:12px;padding:12px;border-left:4px solid var(--cyan);background:#102232;border-radius:10px;color:#dbe8f7}.panel{position:fixed;right:-430px;top:0;width:min(410px,92vw);height:100vh;background:#0c1727;border-left:1px solid #2b3b54;box-shadow:-16px 0 44px rgba(0,0,0,.35);z-index:70;transition:.28s right;display:flex;flex-direction:column}.panel.open{right:0}.overlay{position:fixed;inset:0;background:rgba(4,9,16,.72);z-index:60;display:none}.overlay.show{display:block}.phead{padding:18px 18px 14px;border-bottom:1px solid rgba(255,255,255,.07);display:flex;gap:12px}.phead h3{font-size:18px;margin:0}.phead p{margin:4px 0 0;color:var(--muted);font-size:12px}.close{margin-left:auto;border:1px solid #34445c;background:#131f31;color:white;width:34px;height:34px;border-radius:9px;cursor:pointer}.pbody{padding:18px;overflow:auto}.label{font-size:11px;color:#7f91aa;text-transform:uppercase;letter-spacing:.1em;margin:18px 0 7px}.pbody ul{padding-left:18px;color:#dce6f2}
+@media(max-width:980px){.hero,.grid{grid-template-columns:1fr}.flow-shell{padding:12px}.wrap{width:min(98vw,1320px)}}
+</style>
+</head>
+<body>
+<header class="top"><div class="brand">Environment Branch<small>Long-term metocean exposure and load-case representation</small></div><div class="top-actions"><a class="btn" href="index.html">← Back to main chart</a><a class="btn" href="global_analysis.html">Next: Global Analysis →</a><button class="btn primary" onclick="openNode('overview')">How to read</button></div></header>
+<div class="wrap">
+  <section class="hero">
+    <div class="card hero-copy">
+      <div class="eyebrow"><span class="dot"></span> Branch 02 · long-term exposure definition</div>
+      <h1>Environment turns metocean data into fatigue-ready representative load cases.</h1>
+      <p>This branch takes raw environmental information and converts it into a structured fatigue environment: long-term scatter, directionality, regular or irregular representation, exposure weighting and the final load-case matrix for global simulations.</p>
+      <div class="note-row">
+        <div class="pill">Metocean source</div><div class="pill">Wave scatter</div><div class="pill">Current / heading</div><div class="pill">Regular vs irregular</div><div class="pill">Exposure weighting</div><div class="pill">Representative cases</div>
+      </div>
+    </div>
+    <div class="card hero-summary">
+      <h3>What this branch must deliver</h3>
+      <ul class="list">
+        <li>A traceable environmental basis used for fatigue assessment.</li>
+        <li>Representative regular-wave classes or irregular sea states.</li>
+        <li>Exposure values and environmental load-case IDs ready for downstream global analysis.</li>
+      </ul>
+      <div class="callout"><b>Key principle:</b> the environment branch is not just data storage. It is the logic that preserves long-term occurrence while reducing the environmental space to a practical yet technically credible fatigue case set.</div>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>Interactive Environment Flow</h2>
+    <p>Click any node to open its engineering details, inputs, outputs and key checks.</p>
+    <div class="flow-shell">
+      <div class="flow">
+        <svg viewBox="0 0 1080 1360" preserveAspectRatio="none">
+          <path id="p1" class="path" d="M540,110 C450,130 305,180 185,220"/>
+          <path id="p2" class="path blue" d="M540,110 C540,140 540,155 540,180"/>
+          <path id="p3" class="path violet" d="M540,110 C630,130 775,180 895,220"/>
+          <path id="p4" class="path blue" d="M185,270 C245,320 365,340 480,385"/>
+          <path id="p5" class="path blue" d="M540,270 C540,315 540,340 540,382"/>
+          <path id="p6" class="path blue" d="M895,270 C835,320 715,340 600,385"/>
+          <path id="p7" class="path blue" d="M540,430 C430,470 300,500 260,520"/>
+          <path id="p8" class="path blue" d="M540,430 C650,470 780,500 820,520"/>
+          <path id="p9" class="path blue" d="M260,590 C350,590 445,575 505,572"/>
+          <path id="p10" class="path blue" d="M820,590 C730,590 635,575 575,572"/>
+          <path id="p11" class="path blue" d="M540,612 C480,660 280,690 205,730"/>
+          <path id="p12" class="path blue" d="M540,612 C600,660 800,690 875,730"/>
+          <path id="p13" class="path blue" d="M205,805 C205,830 205,850 205,875"/>
+          <path id="p14" class="path blue" d="M875,805 C875,830 875,850 875,875"/>
+          <path id="p15" class="path green" d="M205,950 C295,995 430,1015 500,1050"/>
+          <path id="p16" class="path green" d="M875,950 C785,995 650,1015 580,1050"/>
+          <path id="p17" class="path green" d="M540,1105 C540,1135 540,1160 540,1190"/>
+          <circle r="4" class="flow-dot"><animateMotion dur="3.4s" repeatCount="indefinite"><mpath href="#p1"/></animateMotion></circle>
+          <circle r="4" class="flow-dot blue"><animateMotion dur="3.0s" repeatCount="indefinite"><mpath href="#p2"/></animateMotion></circle>
+          <circle r="4" class="flow-dot"><animateMotion dur="3.6s" repeatCount="indefinite"><mpath href="#p3"/></animateMotion></circle>
+          <circle r="4" class="flow-dot blue"><animateMotion dur="3.4s" repeatCount="indefinite"><mpath href="#p4"/></animateMotion></circle>
+          <circle r="4" class="flow-dot blue"><animateMotion dur="3.2s" repeatCount="indefinite"><mpath href="#p5"/></animateMotion></circle>
+          <circle r="4" class="flow-dot blue"><animateMotion dur="3.4s" repeatCount="indefinite"><mpath href="#p6"/></animateMotion></circle>
+          <circle r="4" class="flow-dot blue"><animateMotion dur="3.8s" repeatCount="indefinite"><mpath href="#p7"/></animateMotion></circle>
+          <circle r="4" class="flow-dot blue"><animateMotion dur="3.8s" repeatCount="indefinite"><mpath href="#p8"/></animateMotion></circle>
+          <circle r="4" class="flow-dot blue"><animateMotion dur="2.8s" repeatCount="indefinite"><mpath href="#p9"/></animateMotion></circle>
+          <circle r="4" class="flow-dot blue"><animateMotion dur="2.8s" repeatCount="indefinite"><mpath href="#p10"/></animateMotion></circle>
+          <circle r="4" class="flow-dot blue"><animateMotion dur="4.0s" repeatCount="indefinite"><mpath href="#p11"/></animateMotion></circle>
+          <circle r="4" class="flow-dot blue"><animateMotion dur="4.0s" repeatCount="indefinite"><mpath href="#p12"/></animateMotion></circle>
+          <circle r="4" class="flow-dot blue"><animateMotion dur="2.7s" repeatCount="indefinite"><mpath href="#p13"/></animateMotion></circle>
+          <circle r="4" class="flow-dot blue"><animateMotion dur="2.7s" repeatCount="indefinite"><mpath href="#p14"/></animateMotion></circle>
+          <circle r="4" class="flow-dot green"><animateMotion dur="3.6s" repeatCount="indefinite"><mpath href="#p15"/></animateMotion></circle>
+          <circle r="4" class="flow-dot green"><animateMotion dur="3.6s" repeatCount="indefinite"><mpath href="#p16"/></animateMotion></circle>
+          <circle r="4" class="flow-dot green"><animateMotion dur="2.9s" repeatCount="indefinite"><mpath href="#p17"/></animateMotion></circle>
+        </svg>
+        <div class="node sectionnode n0" onclick="openNode('environmentGoal')"><div class="cap">ENV</div><h3>Environmental Basis for Fatigue</h3><p>Top-level goal for this branch</p><small>Start here</small></div>
+        <div class="node input n1" onclick="openNode('sourceData')"><div class="cap">MS</div><h3>Metocean Source Data</h3><p>Site data, design basis documents, scatter tables, environmental assumptions</p><small>Primary source</small></div>
+        <div class="node env n2" onclick="openNode('scatterDef')"><div class="cap">SC</div><h3>Long-Term Scatter Definition</h3><p>Hs-Tp or equivalent environmental distribution used for fatigue</p><small>Core input</small></div>
+        <div class="node sectionnode n3" onclick="openNode('headingCurrent')"><div class="cap">HC</div><h3>Headings, Current & LF Basis</h3><p>Directional treatment, current profile and additional low-frequency environmental considerations</p><small>Context settings</small></div>
+        <div class="node decision n4" onclick="openNode('repDecision')"><h3>How will the environment be represented?</h3><p>Choose the representative strategy used in fatigue assessment.</p></div>
+        <div class="node env n5" onclick="openNode('binning')"><div class="cap">BIN</div><h3>Representative Binning</h3><p>Reduce the scatter to a manageable but credible case set.</p><small>Preserve occurrence</small></div>
+        <div class="node env n6" onclick="openNode('exposureRules')"><div class="cap">EXP</div><h3>Exposure / Weighting Rules</h3><p>Define how occurrence is converted into cycles or exposure time.</p><small>Weighting logic</small></div>
+        <div class="node decision n7" onclick="openNode('routeDecision')"><h3>Regular or Irregular Fatigue Route?</h3><p>Select the environmental format required by the chosen fatigue workflow.</p></div>
+        <div class="node env n8" onclick="openNode('regularCases')"><div class="cap">RW</div><h3>Regular Wave Cases</h3><p>Representative H-T-heading regular-wave classes for deterministic fatigue analysis.</p><small>Regular branch</small></div>
+        <div class="node env n9" onclick="openNode('irregularStates')"><div class="cap">SS</div><h3>Irregular Sea States</h3><p>Representative Hs-Tp-heading spectral sea states for stochastic fatigue analysis.</p><small>Irregular branch</small></div>
+        <div class="node output n10" onclick="openNode('regularExposure')"><div class="cap">n</div><h3>Regular Exposure</h3><p>Assign exposed cycles or equivalent event counts to each regular-wave case.</p><small>Cycle-based weighting</small></div>
+        <div class="node output n11" onclick="openNode('irregularExposure')"><div class="cap">T</div><h3>Irregular Exposure</h3><p>Assign occurrence duration / exposure time to each irregular sea state.</p><small>Time-based weighting</small></div>
+        <div class="node output n12" onclick="openNode('matrix')"><div class="cap">MX</div><h3>Environmental Load-Case Matrix</h3><p>Final representative case matrix with directions, probabilities and exposure values.</p><small>Downstream case table</small></div>
+        <div class="node output n13" onclick="openNode('deliverable')"><div class="cap">ID</div><h3>Downstream Deliverable</h3><p>Global-analysis-ready environmental load-case IDs and weighting basis used later by collate and fatigue accumulation.</p><small>Ready for next branch</small></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="grid">
+    <div class="card detail">
+      <h3>Environment engineering checklist</h3>
+      <p>These are the key things to freeze before starting the global analysis case build.</p>
+      <div class="stack">
+        <div class="chip">Data source versioned</div><div class="chip">Scatter definition frozen</div><div class="chip">Directionality stated</div><div class="chip">Binning rationale clear</div><div class="chip">Exposure logic defined</div><div class="chip">Case matrix traceable</div>
+      </div>
+      <div class="eq">Regular route: represent environment by regular-wave classes and assign exposed cycles n<sub>exp</sub>.</div>
+      <div class="eq">Irregular route: represent environment by spectral sea states and assign exposure time T<sub>exp</sub>.</div>
+      <ul class="checklist">
+        <li>Preserve total long-term occurrence when reducing the scatter.</li>
+        <li>Document any screening or cut-off criteria used to remove negligible states.</li>
+        <li>Keep heading and current assumptions traceable for every representative case.</li>
+        <li>Make sure exposure values match the later damage accumulation logic.</li>
+      </ul>
+    </div>
+    <div class="card ref">
+      <h3>Reference submap from the master document</h3>
+      <p>This page is the interactive interpretation of the long-term environment part of the Design Basis / Environment master flow.</p>
+      <img src="assets/image2.png" alt="Environment reference submap" />
+      <div class="callout">Next branch naturally connected to this page is <b>Global Analysis</b>, where these representative environmental cases become actual simulations and extracted response histories.</div>
+    </div>
+  </section>
+</div>
+<div class="overlay" id="overlay" onclick="closePanel()"></div>
+<aside class="panel" id="panel"><div class="phead"><div><h3 id="ptitle"></h3><p id="psub"></p></div><button class="close" onclick="closePanel()">✕</button></div><div class="pbody" id="pbody"></div></aside>
+<script>
+const detail={
+ overview:{title:'How to read this branch',sub:'Reading guide',purpose:'Read from top to bottom. First define the environmental source and long-term scatter, then choose how the environment will be represented, and finally generate representative load cases with exposure values for downstream analysis.',inputs:['Click nodes for detailed notes','Use Back to main chart to return'],outputs:['Clear understanding of the environment branch'],checks:['Follow the route decision carefully','Confirm final output is a case matrix plus exposure basis']},
+ environmentGoal:{title:'Environmental Basis for Fatigue',sub:'Branch entry',purpose:'This is the overall goal of the environment branch: convert metocean information into a fatigue-ready environmental case set.',inputs:['Project environmental basis requirement'],outputs:['Need for structured case generation'],checks:['Environmental basis must align with the selected fatigue method']},
+ sourceData:{title:'Metocean Source Data',sub:'Primary source',purpose:'Collects the environmental source information used to build the fatigue case set.',inputs:['Site metocean reports','Design basis documentation','Raw scatter tables','Environmental assumptions'],outputs:['Verified environmental source set'],checks:['Source revision is recorded','Data provenance is clear','Conflicting sources are resolved']},
+ scatterDef:{title:'Long-Term Scatter Definition',sub:'Core input',purpose:'Defines the long-term environmental population used in the fatigue assessment, typically as Hs-Tp or equivalent scatter.',inputs:['Scatter data','Project-specific definitions'],outputs:['Long-term scatter representation'],checks:['Units are consistent','Scatter covers the intended life basis','Occurrence totals are sensible']},
+ headingCurrent:{title:'Headings, Current & LF Basis',sub:'Context settings',purpose:'Defines directionality, current assumptions and any additional low-frequency environmental aspects required for realistic load cases.',inputs:['Heading strategy','Current profiles','LF motion assumptions if needed'],outputs:['Context settings for representative cases'],checks:['Heading conventions are unambiguous','Current assumptions are compatible with the global model']},
+ repDecision:{title:'How will the environment be represented?',sub:'Decision node',purpose:'Chooses the practical representation strategy used to reduce the environmental space into fatigue cases.',inputs:['Long-term scatter','Project method','Computational strategy'],outputs:['Representative strategy selected'],checks:['Choice balances practicality and fidelity','Must remain consistent with regular/irregular fatigue route']},
+ binning:{title:'Representative Binning',sub:'Scatter reduction',purpose:'Reduces the scatter into a manageable but credible set of representative environmental cases.',inputs:['Long-term scatter','Screening criteria'],outputs:['Representative case candidates'],checks:['Damage-driving zones not lost','Occurrence preserved or conservatively represented','Binning rationale documented']},
+ exposureRules:{title:'Exposure / Weighting Rules',sub:'Weighting logic',purpose:'Defines how long-term occurrence is translated into exposed cycles or exposure time for each representative case.',inputs:['Occurrence probabilities','Design life basis','Scaling conventions'],outputs:['Exposure logic ready for use'],checks:['Scaling logic is dimensionally correct','Weighting aligns with later damage accumulation']},
+ routeDecision:{title:'Regular or Irregular Fatigue Route?',sub:'Route selection',purpose:'Determines whether the representative environment must be formatted as regular-wave classes or irregular sea states.',inputs:['Chosen fatigue method'],outputs:['Regular route or irregular route'],checks:['Regular route must lead to cycle-based exposure','Irregular route must lead to time-based exposure']},
+ regularCases:{title:'Regular Wave Cases',sub:'Regular branch',purpose:'Builds deterministic regular-wave load cases characterized by representative H, T and heading combinations.',inputs:['Representative environmental bins','Heading settings'],outputs:['Regular-wave case list'],checks:['Representative classes cover important response regions','Case count remains practical but credible']},
+ irregularStates:{title:'Irregular Sea States',sub:'Irregular branch',purpose:'Builds stochastic spectral sea-state cases characterized by representative Hs, Tp and heading combinations.',inputs:['Representative environmental bins','Spectral definitions','Heading settings'],outputs:['Irregular sea-state list'],checks:['Sea-state definitions match the intended simulation approach','Spectral assumptions documented']},
+ regularExposure:{title:'Regular Exposure',sub:'Cycle-based weighting',purpose:'Assigns exposed cycles or equivalent event counts to each regular-wave case.',inputs:['Regular-wave cases','Occurrence basis'],outputs:['n_exp per regular case'],checks:['Cycle scaling is documented','Exposure assignment sums correctly']},
+ irregularExposure:{title:'Irregular Exposure',sub:'Time-based weighting',purpose:'Assigns occurrence duration or exposure time to each irregular sea state.',inputs:['Irregular sea states','Occurrence basis'],outputs:['T_exp per sea state'],checks:['Exposure times are traceable','Total duration basis consistent with design life framework']},
+ matrix:{title:'Environmental Load-Case Matrix',sub:'Downstream case table',purpose:'Combines all representative environmental cases, headings and exposure values into the final matrix used by downstream analyses.',inputs:['Representative cases','Exposure values','Directional settings'],outputs:['Structured environmental load-case matrix'],checks:['Every case is uniquely defined','Fields needed by global analysis are present']},
+ deliverable:{title:'Downstream Deliverable',sub:'Ready for next branch',purpose:'Produces the final environmental load-case IDs and weighting basis that the global-analysis and collate branches will consume.',inputs:['Environmental case matrix'],outputs:['Case IDs','Traceable weighting basis'],checks:['Naming is consistent','Every case links to a simulation and weighting record','Ready for global analysis branch']}
+};
+function openNode(key){const d=detail[key]; if(!d)return; let html=`<p>${d.purpose}</p><div class="label">Inputs</div><ul>${(d.inputs||[]).map(x=>`<li>${x}</li>`).join('')}</ul><div class="label">Outputs</div><ul>${(d.outputs||[]).map(x=>`<li>${x}</li>`).join('')}</ul><div class="label">Key checks</div><ul>${(d.checks||[]).map(x=>`<li>${x}</li>`).join('')}</ul>`; document.getElementById('ptitle').textContent=d.title; document.getElementById('psub').textContent=d.sub; document.getElementById('pbody').innerHTML=html; document.getElementById('panel').classList.add('open'); document.getElementById('overlay').classList.add('show');}
+function closePanel(){document.getElementById('panel').classList.remove('open');document.getElementById('overlay').classList.remove('show')}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closePanel()});
+</script>
+</body>
+</html>
