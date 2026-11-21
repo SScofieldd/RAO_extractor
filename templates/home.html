@@ -32,6 +32,7 @@
         <a href="#expertise">Expertise</a>
         <a href="#experience">Experience</a>
         <a href="#work">Selected work</a>
+        <a href="#games">Games</a>
         <a href="#credentials">Credentials</a>
         <a class="nav-cta" href="#contact">Contact</a>
       </nav>
@@ -170,6 +171,50 @@
             <div><strong>Global adoption</strong><span>OptiMum MATLAB tool</span></div>
           </div>
           <div class="project-copy"><h3>Analysis automation programme</h3><p>Automated workflows spanning simulation execution, result extraction, design calculations, validation and reporting.</p></div>
+        </article>
+      </div>
+    </section>
+
+
+    <section class="section-shell game-showcase" id="games" aria-labelledby="games-heading">
+      <div class="section-heading reveal">
+        <div><p class="kicker">Interactive learning</p><h2 id="games-heading">Subsea Empire. Engineering meets play.</h2></div>
+        <p>Explore offshore operations through three interactive browser missions. Learn about subsea equipment and installation decisions by taking control yourself.</p>
+      </div>
+      <div class="game-feature reveal">
+        <div class="game-feature-copy">
+          <span class="game-feature-label">Ocean Engineering Game Lab &middot; 3 missions</span>
+          <h3>Build skills below the surface.</h3>
+          <p>Pilot an ROV, land a subsea manifold and lay an umbilical—all from your browser. These missions use simplified educational physics rather than validated design analysis.</p>
+          <a class="button button-primary" href="{{ url_for('static', filename='games/mission-01-rov.html') }}" target="_blank" rel="noopener">🎮 Play Subsea Empire <span aria-hidden="true">&nearr;</span></a>
+        </div>
+        <div class="game-feature-art" aria-hidden="true">
+          <div class="game-sunbeam"></div>
+          <div class="game-sea-line"></div>
+          <div class="game-submarine">ROV <span>◉</span></div>
+          <div class="game-cable"></div>
+          <div class="game-seabed"></div>
+          <span class="game-sonar-a"></span><span class="game-sonar-b"></span>
+        </div>
+      </div>
+      <div class="game-mission-grid">
+        <article class="game-mission reveal">
+          <span class="game-mission-number">MISSION 01 · ROV OPERATIONS</span>
+          <h3>ROV Pilot Challenge</h3>
+          <p>Navigate with thrusters, avoid obstacles, manage battery power and dock at subsea equipment.</p>
+          <a href="{{ url_for('static', filename='games/mission-01-rov.html') }}" target="_blank" rel="noopener">Launch mission <span aria-hidden="true">&nearr;</span></a>
+        </article>
+        <article class="game-mission reveal">
+          <span class="game-mission-number">MISSION 02 · INSTALLATION</span>
+          <h3>Manifold Installation</h3>
+          <p>Manage crane loading, heave and clearance while lowering a manifold to a controlled touchdown.</p>
+          <a href="{{ url_for('static', filename='games/mission-02-manifold.html') }}" target="_blank" rel="noopener">Launch mission <span aria-hidden="true">&nearr;</span></a>
+        </article>
+        <article class="game-mission reveal">
+          <span class="game-mission-number">MISSION 03 · SURF</span>
+          <h3>Umbilical Lay Challenge</h3>
+          <p>Balance vessel speed and payout to manage tension and bend radius during subsea installation.</p>
+          <a href="{{ url_for('static', filename='games/mission-03-umbilical.html') }}" target="_blank" rel="noopener">Launch mission <span aria-hidden="true">&nearr;</span></a>
         </article>
       </div>
     </section>
